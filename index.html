@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学习笔记整理助手</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="app.js"></script>
+</head>
+<body data-theme="light">
+  <main class="app-shell">
+    <section class="hero">
+      <div class="brand-mark">
+        <i data-lucide="book-open-check"></i>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">Qwen3.6 Plus</p>
+        <h1>学习笔记整理助手</h1>
+        <p>粘贴笔记，生成摘要、知识点和复习题</p>
+      </div>
+      <div class="hero-actions">
+        <button id="themeToggleBtn" class="icon-text-btn" type="button" aria-label="切换黑色界面">
+          <i data-lucide="moon"></i>
+          黑色
+        </button>
+        <button id="helpBtn" class="icon-text-btn" type="button" aria-haspopup="dialog">
+          <i data-lucide="circle-help"></i>
+          说明
+        </button>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <aside class="compose-panel">
+        <div class="field-group">
+          <div class="group-title">
+            <i data-lucide="key-round"></i>
+            <span>API Key</span>
+          </div>
+          <div class="key-row">
+            <input id="apiKeyInput" class="text-input" type="password" autocomplete="off" placeholder="请输入阿里云百炼 API Key">
+            <button id="toggleKeyBtn" class="icon-btn" type="button" aria-label="显示或隐藏 API Key" title="显示/隐藏">
+              <i data-lucide="eye"></i>
+            </button>
+          </div>
+          <button id="clearKeyBtn" class="quiet-btn" type="button">
+            <i data-lucide="eraser"></i>
+            清除
+          </button>
+        </div>
+
+        <div class="field-group grow">
+          <div class="group-title">
+            <i data-lucide="pencil-line"></i>
+            <span>输入</span>
+          </div>
+          <textarea id="noteInput" class="note-input" placeholder="粘贴课程笔记，或继续输入修改要求..."></textarea>
+          <div class="quick-actions" aria-label="快捷修改建议">
+            <button type="button" data-suggestion="请把上一次整理结果改得更简短。">更简短</button>
+            <button type="button" data-suggestion="请把上一次整理结果改成适合考试复习的版本。">考试版</button>
+            <button type="button" data-suggestion="请把上一次整理结果改成 Markdown 表格。">表格</button>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="sendBtn" class="primary-btn" type="button">
+            <i data-lucide="sparkles"></i>
+            生成
+          </button>
+          <button id="resetChatBtn" class="icon-btn reset-btn" type="button" aria-label="清空对话" title="清空对话">
+            <i data-lucide="rotate-ccw"></i>
+          </button>
+        </div>
+      </aside>
+
+      <section class="result-panel" aria-live="polite">
+        <header class="result-header">
+          <div>
+            <h2>整理结果</h2>
+            <p id="conversationStatus">等待输入</p>
+          </div>
+          <span class="model-pill">qwen3.6-plus</span>
+        </header>
+
+        <div id="errorBox" class="notice error-box hidden" role="alert"></div>
+        <div id="loadingBox" class="notice loading-box hidden">
+          <span class="spinner"></span>
+          正在整理...
+        </div>
+
+        <div id="chatWindow" class="chat-window">
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i data-lucide="notebook-tabs"></i>
+            </div>
+            <h3>先放一段笔记进来</h3>
+            <p>生成后可继续追问或修改。</p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="helpDialog" class="help-dialog">
+    <div class="dialog-header">
+      <h2>使用说明</h2>
+      <button id="closeHelpBtn" class="icon-btn" type="button" aria-label="关闭说明">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="help-list">
+      <p><strong>1.</strong> 手动输入自己的阿里云百炼 API Key。</p>
+      <p><strong>2.</strong> 粘贴课程笔记，点击生成。</p>
+      <p><strong>3.</strong> 继续输入“更简短”“表格”等要求进行多轮修改。</p>
+    </div>
+    <p class="security-note">密钥只用于本次页面请求，不写入代码，不保存到本地。</p>
+  </dialog>
+</body>
+</html>
