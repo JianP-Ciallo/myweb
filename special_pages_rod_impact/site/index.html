@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LS-PrePost 圆柱杆冲击钢板演示</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">GitHub Pages 静态演示 · 场景 rod_impact_plate</p>
+        <h1 id="page-title">LS-PrePost 圆柱杆冲击钢板演示</h1>
+        <p class="lead">
+          本页面展示一个受控 LS-DYNA 建模场景：实心圆柱杆以初速度冲击固定钢板。
+          如果需要生成 keyword、运行 Python 后端、打开 LS-PrePost 或导出预览，请下载完整本地版。
+        </p>
+        <div class="actions">
+          <a class="button primary" href="../downloads/lsprepost-mcp-special-rod-impact.zip">下载完整本地版</a>
+          <a class="button secondary" href="#local-run">查看本地运行步骤</a>
+        </div>
+      </div>
+      <div class="schematic" aria-label="圆柱杆冲击固定钢板示意图">
+        <div class="velocity">v0</div>
+        <div class="rod"></div>
+        <div class="impact-line"></div>
+        <div class="plate"></div>
+        <div class="fixture left"></div>
+        <div class="fixture right"></div>
+      </div>
+    </section>
+
+    <section class="band two-column">
+      <div>
+        <h2>网页端能展示什么</h2>
+        <p>
+          这里是可部署到 GitHub Pages 的静态展示页，用于说明场景、参数和工作流。
+          它不依赖服务器，也不会尝试在浏览器中运行 Python。
+        </p>
+      </div>
+      <div>
+        <h2>完整功能在哪里运行</h2>
+        <p>
+          模型生成、MCP 工具、workspace 文件写入、LS-PrePost 启动和预览导出都在用户本机运行。
+          下载包解压后使用 <code>start_web_app.cmd</code> 启动。
+        </p>
+      </div>
+    </section>
+
+    <section class="band">
+      <h2>默认演示参数</h2>
+      <div class="parameter-grid">
+        <div><span>场景 ID</span><strong>rod_impact_plate</strong></div>
+        <div><span>冲击体</span><strong>实心圆柱杆</strong></div>
+        <div><span>目标件</span><strong>固定钢板</strong></div>
+        <div><span>载荷</span><strong>初始速度冲击</strong></div>
+        <div><span>材料</span><strong>受控材料库</strong></div>
+        <div><span>输出</span><strong>model.k / checks.json / 预览</strong></div>
+      </div>
+    </section>
+
+    <section class="band warning">
+      <h2>GitHub Pages 功能边界</h2>
+      <p>
+        GitHub Pages 只能托管 HTML、CSS、JavaScript 和下载文件，不能运行 Python 后端，
+        不能启动 MCP Server，不能写入你的本地项目目录，也不能调用本机 LS-PrePost。
+      </p>
+    </section>
+
+    <section class="band" id="local-run">
+      <h2>本地完整运行步骤</h2>
+      <ol class="steps">
+        <li>下载 <code>lsprepost-mcp-special-rod-impact.zip</code>。</li>
+        <li>解压到本机普通目录，不要直接在压缩包内运行。</li>
+        <li>双击 <code>start_web_app.cmd</code>。</li>
+        <li>按页面提示设置本机 <code>lsprepost*.exe</code> 路径。</li>
+        <li>在本地 Web App 中生成、校验并打开 LS-PrePost 预览。</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
