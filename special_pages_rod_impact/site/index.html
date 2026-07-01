@@ -3,81 +3,135 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LS-PrePost 圆柱杆冲击钢板演示</title>
+  <title>lsprepost-mcp 特供建模工作台</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="page-shell">
-    <section class="hero" aria-labelledby="page-title">
-      <div class="hero-copy">
-        <p class="eyebrow">GitHub Pages 静态演示 · 场景 rod_impact_plate</p>
-        <h1 id="page-title">LS-PrePost 圆柱杆冲击钢板演示</h1>
-        <p class="lead">
-          本页面展示一个受控 LS-DYNA 建模场景：实心圆柱杆以初速度冲击固定钢板。
-          如果需要生成 keyword、运行 Python 后端、打开 LS-PrePost 或导出预览，请下载完整本地版。
+  <header class="topbar">
+    <div>
+      <h1>lsprepost-mcp 特供建模工作台</h1>
+      <p>GitHub Pages 静态版 · 场景 rod_impact_plate · 圆柱杆冲击钢板</p>
+    </div>
+    <a class="download-button" href="../downloads/lsprepost-mcp-special-rod-impact.zip">下载完整本地版</a>
+  </header>
+
+  <main class="workbench-shell">
+    <aside class="left-panel">
+      <section class="panel-card">
+        <h2>LS-PrePost</h2>
+        <div class="status-box ok">
+          <strong>静态演示模式</strong>
+          <span>GitHub Pages 只展示界面和场景说明，不运行 Python 后端。</span>
+        </div>
+        <button class="wide-button muted" type="button" disabled>导入 LS-PrePost</button>
+      </section>
+
+      <section class="panel-card">
+        <h2>当前场景</h2>
+        <div class="field-row">
+          <span>场景 ID</span>
+          <strong>rod_impact_plate</strong>
+        </div>
+        <div class="field-row">
+          <span>冲击体</span>
+          <strong>实心圆柱杆</strong>
+        </div>
+        <div class="field-row">
+          <span>目标件</span>
+          <strong>固定钢板</strong>
+        </div>
+        <div class="field-row">
+          <span>载荷</span>
+          <strong>初速度冲击</strong>
+        </div>
+      </section>
+
+      <section class="panel-card">
+        <h2>完整功能</h2>
+        <p>
+          生成 <code>model.k</code>、写入 workspace、MCP 工具调用和 LS-PrePost 预览需要在本地版运行。
         </p>
-        <div class="actions">
-          <a class="button primary" href="../downloads/lsprepost-mcp-special-rod-impact.zip">下载完整本地版</a>
-          <a class="button secondary" href="#local-run">查看本地运行步骤</a>
+        <a class="wide-button" href="../downloads/lsprepost-mcp-special-rod-impact.zip">下载完整本地版</a>
+      </section>
+
+      <section class="panel-card">
+        <h2>本地启动</h2>
+        <ol class="compact-list">
+          <li>下载 zip 并解压。</li>
+          <li>双击 <code>start_web_app.cmd</code>。</li>
+          <li>设置本机 <code>lsprepost*.exe</code> 路径。</li>
+        </ol>
+      </section>
+    </aside>
+
+    <section class="viewer-panel">
+      <div class="viewer-toolbar">
+        <h2>三维视窗</h2>
+        <div class="toolbar-actions">
+          <button type="button" disabled>适配视图</button>
+          <button type="button" disabled>等轴测</button>
+          <button type="button" disabled>顶视图</button>
+          <button type="button" disabled>前视图</button>
         </div>
       </div>
-      <div class="schematic" aria-label="圆柱杆冲击固定钢板示意图">
-        <div class="velocity">v0</div>
-        <div class="rod"></div>
-        <div class="impact-line"></div>
-        <div class="plate"></div>
-        <div class="fixture left"></div>
-        <div class="fixture right"></div>
+      <div class="viewer-meta">
+        当前场景：<strong>rod_impact_plate</strong>；视窗显示：圆柱杆以初速度冲击固定钢板。
+      </div>
+      <div class="model-view" aria-label="rod_impact_plate 圆柱杆冲击钢板示意">
+        <div class="grid-plane"></div>
+        <div class="axis axis-x">X</div>
+        <div class="axis axis-y">Y</div>
+        <div class="axis axis-z">Z</div>
+        <div class="velocity-label">v0</div>
+        <div class="rod-model"></div>
+        <div class="impact-dash"></div>
+        <div class="steel-plate"></div>
+        <div class="support support-left"></div>
+        <div class="support support-right"></div>
+        <div class="viewer-note">静态 Pages 视窗：用于展示工况，真实模型生成请下载本地版。</div>
       </div>
     </section>
 
-    <section class="band two-column">
-      <div>
-        <h2>网页端能展示什么</h2>
-        <p>
-          这里是可部署到 GitHub Pages 的静态展示页，用于说明场景、参数和工作流。
-          它不依赖服务器，也不会尝试在浏览器中运行 Python。
-        </p>
-      </div>
-      <div>
-        <h2>完整功能在哪里运行</h2>
-        <p>
-          模型生成、MCP 工具、workspace 文件写入、LS-PrePost 启动和预览导出都在用户本机运行。
-          下载包解压后使用 <code>start_web_app.cmd</code> 启动。
-        </p>
-      </div>
-    </section>
+    <aside class="agent-panel">
+      <section class="agent-card">
+        <div class="agent-header">
+          <div>
+            <h2>千问建模智能体</h2>
+            <p>使用你的阿里千问 API Key 解释场景、参数和本地运行流程。</p>
+          </div>
+          <button id="clearChatButton" type="button">清空</button>
+        </div>
 
-    <section class="band">
-      <h2>默认演示参数</h2>
-      <div class="parameter-grid">
-        <div><span>场景 ID</span><strong>rod_impact_plate</strong></div>
-        <div><span>冲击体</span><strong>实心圆柱杆</strong></div>
-        <div><span>目标件</span><strong>固定钢板</strong></div>
-        <div><span>载荷</span><strong>初始速度冲击</strong></div>
-        <div><span>材料</span><strong>受控材料库</strong></div>
-        <div><span>输出</span><strong>model.k / checks.json / 预览</strong></div>
-      </div>
-    </section>
+        <label class="input-label" for="apiKeyInput">阿里千问 API Key</label>
+        <input id="apiKeyInput" class="text-input" type="password" autocomplete="off" placeholder="sk-...">
 
-    <section class="band warning">
-      <h2>GitHub Pages 功能边界</h2>
-      <p>
-        GitHub Pages 只能托管 HTML、CSS、JavaScript 和下载文件，不能运行 Python 后端，
-        不能启动 MCP Server，不能写入你的本地项目目录，也不能调用本机 LS-PrePost。
-      </p>
-    </section>
+        <label class="input-label" for="modelSelect">模型</label>
+        <select id="modelSelect" class="text-input">
+          <option value="qwen-plus" selected>qwen-plus</option>
+          <option value="qwen-turbo">qwen-turbo</option>
+          <option value="qwen-max">qwen-max</option>
+        </select>
 
-    <section class="band" id="local-run">
-      <h2>本地完整运行步骤</h2>
-      <ol class="steps">
-        <li>下载 <code>lsprepost-mcp-special-rod-impact.zip</code>。</li>
-        <li>解压到本机普通目录，不要直接在压缩包内运行。</li>
-        <li>双击 <code>start_web_app.cmd</code>。</li>
-        <li>按页面提示设置本机 <code>lsprepost*.exe</code> 路径。</li>
-        <li>在本地 Web App 中生成、校验并打开 LS-PrePost 预览。</li>
-      </ol>
-    </section>
+        <div class="privacy-note">
+          API Key 仅保存在当前浏览器会话的 sessionStorage 中，请不要把 Key 提交到 GitHub。
+        </div>
+
+        <div id="chatMessages" class="chat-messages" aria-live="polite">
+          <div class="message assistant">
+            你好，我可以解释 rod_impact_plate 场景、推荐参数填写方式，并提醒哪些操作必须下载本地版完成。
+          </div>
+        </div>
+
+        <form id="chatForm" class="chat-form">
+          <textarea id="chatInput" rows="3" placeholder="例如：这个圆柱杆冲击钢板场景需要哪些参数？"></textarea>
+          <button id="sendButton" type="submit">发送</button>
+        </form>
+
+        <div id="agentStatus" class="agent-status">等待输入 API Key 和问题。</div>
+      </section>
+    </aside>
   </main>
+
+  <script src="agent.js"></script>
 </body>
 </html>

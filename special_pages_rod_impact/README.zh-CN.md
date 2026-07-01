@@ -1,14 +1,36 @@
-# LS-PrePost 圆柱杆冲击钢板特供版
+# lsprepost-mcp 特供建模工作台
 
-这个文件夹用于发布 GitHub Pages 静态演示页，并提供完整本地运行包下载。
+这个文件夹用于发布 GitHub Pages 静态版工作台。页面融合本地 Web App 的工作台布局，默认展示 `rod_impact_plate` 场景，并在右侧提供阿里千问对话智能体。
 
 ## 页面内容
 
-`site/` 是可以上传到 GitHub Pages 的静态站点。首页展示 `rod_impact_plate` 场景：实心圆柱杆以初始速度冲击固定钢板。
+```text
+site/index.html
+site/styles.css
+site/agent.js
+```
 
-GitHub Pages 只能展示 HTML、CSS、JavaScript 和下载文件，不能运行 Python，不能启动 MCP Server，也不能调用本机 LS-PrePost。
+页面包含：
+
+- 左侧：LS-PrePost 状态、`rod_impact_plate` 场景参数、完整本地版下载入口。
+- 中间：圆柱杆冲击固定钢板的静态视窗展示。
+- 右侧：千问建模智能体，默认模型为 `qwen-plus`。
+
+## 千问 API Key
+
+用户需要在页面右侧输入自己的阿里千问 API Key。API Key 只保存在当前浏览器会话的 `sessionStorage` 中，不应写入代码，也不应提交到 GitHub。
+
+页面会从浏览器直接请求：
+
+```text
+https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+```
+
+如果浏览器或阿里云接口策略拦截跨域请求，静态 GitHub Pages 页面无法自行解决，需要改用本地版或配置自己的代理服务。
 
 ## 完整功能
+
+GitHub Pages 只能托管静态 HTML、CSS、JavaScript 和下载文件。它不能运行 Python，不能启动 MCP Server，不能写入 workspace，也不能调用本机 LS-PrePost。
 
 完整功能在下载包中运行：
 
@@ -26,25 +48,23 @@ start_web_app.cmd
 
 ## 发布方式
 
-把整个 `special_pages_rod_impact/` 目录作为 GitHub Pages 上的特供版本目录上传，并访问：
+把整个 `special_pages_rod_impact/` 目录上传到 GitHub Pages 仓库根目录，并访问：
 
 ```text
 special_pages_rod_impact/site/index.html
 ```
 
-为了让下载按钮可用，发布时需要同时保留相对路径：
-
-```text
-downloads/lsprepost-mcp-special-rod-impact.zip
-```
-
-从 `site/index.html` 页面点击下载时，链接会指向：
+下载按钮使用相对路径：
 
 ```text
 ../downloads/lsprepost-mcp-special-rod-impact.zip
 ```
 
-如果 GitHub Pages 只允许选择一个发布目录，可以把 `site/index.html`、`site/styles.css` 和 `downloads/` 一起复制到实际 Pages 根目录，并把页面里的下载链接改成 `downloads/lsprepost-mcp-special-rod-impact.zip`。
+所以发布时必须保留：
+
+```text
+special_pages_rod_impact/downloads/lsprepost-mcp-special-rod-impact.zip
+```
 
 ## 本地校验
 
@@ -54,4 +74,4 @@ downloads/lsprepost-mcp-special-rod-impact.zip
 powershell -NoProfile -ExecutionPolicy Bypass -File .\special_pages_rod_impact\verify_special_pages.ps1
 ```
 
-看到 `Special Pages verification passed.` 表示静态页、README 和下载包路径一致。
+看到 `Special workbench verification passed.` 表示静态工作台、智能体脚本、README 和下载包路径一致。
