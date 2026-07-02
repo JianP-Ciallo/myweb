@@ -6,6 +6,7 @@ $DownloadsDir = Join-Path $Root "downloads"
 $IndexPath = Join-Path $SiteDir "index.html"
 $StylesPath = Join-Path $SiteDir "styles.css"
 $AgentPath = Join-Path $SiteDir "agent.js"
+$Viewer3dPath = Join-Path $SiteDir "viewer3d.js"
 $ReadmePath = Join-Path $Root "README.zh-CN.md"
 $ZipName = "lsprepost-mcp-special-rod-impact.zip"
 $ZipPath = Join-Path $DownloadsDir $ZipName
@@ -31,12 +32,14 @@ function Assert-Contains {
 Assert-FileExists $IndexPath
 Assert-FileExists $StylesPath
 Assert-FileExists $AgentPath
+Assert-FileExists $Viewer3dPath
 Assert-FileExists $ReadmePath
 Assert-FileExists $ZipPath
 
 $index = Get-Content -LiteralPath $IndexPath -Raw -Encoding UTF8
 $styles = Get-Content -LiteralPath $StylesPath -Raw -Encoding UTF8
 $agent = Get-Content -LiteralPath $AgentPath -Raw -Encoding UTF8
+$viewer3d = Get-Content -LiteralPath $Viewer3dPath -Raw -Encoding UTF8
 $readme = Get-Content -LiteralPath $ReadmePath -Raw -Encoding UTF8
 
 $requiredIndexText = @(
@@ -46,7 +49,16 @@ $requiredIndexText = @(
     "qwen-plus",
     "apiKeyInput",
     "chatMessages",
+    "importmap",
+    "three.module.js",
+    "three/addons/",
     "agent.js",
+    "viewer3d.js",
+    "viewerCanvas",
+    "fitViewButton",
+    "isoViewButton",
+    "topViewButton",
+    "frontViewButton",
     "LS-PrePost",
     "Python"
 )
@@ -59,10 +71,29 @@ $requiredStyleText = @(
     "left-panel",
     "viewer-panel",
     "agent-panel",
-    "chat-messages"
+    "chat-messages",
+    "webgl-view",
+    "viewer-overlay"
 )
 foreach ($text in $requiredStyleText) {
     Assert-Contains "styles.css" $styles $text
+}
+
+$requiredViewer3dText = @(
+    'from "three"',
+    'from "three/addons/controls/OrbitControls.js"',
+    "OrbitControls",
+    "WebGLRenderer",
+    "CylinderGeometry",
+    "BoxGeometry",
+    "fitViewButton",
+    "isoViewButton",
+    "topViewButton",
+    "frontViewButton",
+    "requestAnimationFrame"
+)
+foreach ($text in $requiredViewer3dText) {
+    Assert-Contains "viewer3d.js" $viewer3d $text
 }
 
 $requiredAgentText = @(

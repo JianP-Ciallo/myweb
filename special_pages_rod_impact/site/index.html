@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>lsprepost-mcp 特供建模工作台</title>
   <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
 </head>
 <body>
   <header class="topbar">
@@ -68,27 +76,20 @@
       <div class="viewer-toolbar">
         <h2>三维视窗</h2>
         <div class="toolbar-actions">
-          <button type="button" disabled>适配视图</button>
-          <button type="button" disabled>等轴测</button>
-          <button type="button" disabled>顶视图</button>
-          <button type="button" disabled>前视图</button>
+          <button id="fitViewButton" type="button">适配视图</button>
+          <button id="isoViewButton" type="button">等轴测</button>
+          <button id="topViewButton" type="button">顶视图</button>
+          <button id="frontViewButton" type="button">前视图</button>
         </div>
       </div>
       <div class="viewer-meta">
         当前场景：<strong>rod_impact_plate</strong>；视窗显示：圆柱杆以初速度冲击固定钢板。
       </div>
-      <div class="model-view" aria-label="rod_impact_plate 圆柱杆冲击钢板示意">
-        <div class="grid-plane"></div>
-        <div class="axis axis-x">X</div>
-        <div class="axis axis-y">Y</div>
-        <div class="axis axis-z">Z</div>
-        <div class="velocity-label">v0</div>
-        <div class="rod-model"></div>
-        <div class="impact-dash"></div>
-        <div class="steel-plate"></div>
-        <div class="support support-left"></div>
-        <div class="support support-right"></div>
-        <div class="viewer-note">静态 Pages 视窗：用于展示工况，真实模型生成请下载本地版。</div>
+      <div id="viewerCanvas" class="model-view webgl-view" aria-label="rod_impact_plate 交互式三维视窗">
+        <div class="viewer-overlay">
+          <span>WebGL 交互视窗：拖动旋转，滚轮缩放，右键平移。</span>
+          <span>真实 model.k 生成和 LS-PrePost 导入仍需下载本地版。</span>
+        </div>
       </div>
     </section>
 
@@ -132,6 +133,7 @@
     </aside>
   </main>
 
+  <script type="module" src="viewer3d.js"></script>
   <script src="agent.js"></script>
 </body>
 </html>
