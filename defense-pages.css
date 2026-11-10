@@ -3,12 +3,11 @@ body.workbench-theme .workbench-global-header nav { flex-wrap: wrap; }
 body.workbench-theme .workbench-global-header .workbench-global-brand { color: var(--wb-accent); }
 body.workbench-theme .workbench-global-header nav a[aria-current] { background: var(--wb-accent-soft); color: var(--wb-accent-hover); }
 .workbench-global-context #openWelcome { justify-self: end; padding: 0 4px; border-color: transparent; font-size: 11px; color: var(--wb-accent); }
-#welcomeDialog { width: min(575px, calc(100% - 32px)); padding: clamp(20px, 4vw, 32px); }
+#welcomeDialog { position: fixed; width: min(480px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: clamp(20px, 4vw, 28px); overflow: auto; }
 #welcomeDialog::backdrop { background: #18303c70; }
 #welcomeDialog h2 { font-size: clamp(18px, 4vw, 25px); font-weight: 700; margin: 0 0 15px; }
-#welcomeDialog :is(p, li) { font-size: 14px; line-height: 1.7; }
-#welcomeDialog ul { padding-inline-start: 22px; }
-#welcomeDialog li + li { margin-top: 5px; }
+#welcomeDialog p { font-size: 14px; line-height: 1.7; }
+#welcomeDialog .welcome-close { position: absolute; top: 10px; right: 10px; min-width: 34px; padding: 3px 7px; font-size: 19px; }
 #welcomeDialog .dialog-actions { display: flex; justify-content: flex-end; margin-top: 22px; }
 body.workbench-theme #enterWorkbench { background: var(--wb-accent); color: #fff; border-color: var(--wb-accent); }
 .defense-link { display: block; text-align: center; padding: 9px; border: 1px solid var(--wb-border); border-radius: 7px; }
@@ -17,7 +16,9 @@ body.workbench-theme #enterWorkbench { background: var(--wb-accent); color: #fff
 .defense-secondary :is(#modelViewport, #viewport, #sceneView, #responseViewport, #sceneViewport, .refined-blast-preview-canvas, .model-stage) { min-height: 260px; }
 .defense-secondary #modelViewport :is(.viewport-grid, .axis-widget, .viewer-hint),
 .defense-secondary :is(.viewer-note, [data-refined-preview-overlay], #loadingState) { pointer-events: none; }
-.defense-secondary #modelViewport > :is(.viewport-grid, .viewer-hint), .defense-secondary .viewer-note { display: none; }
+.defense-secondary #modelViewport > :is(.viewport-grid, .axis-widget), .defense-secondary .viewer-note { display: none; }
+body[data-defense-page="modeling"] #modelViewport { background: var(--wb-background); cursor: default; }
+body[data-defense-page="modeling"] #modelViewport [hidden] { display: none; }
 .defense-secondary [data-demo-status] { overflow-wrap: anywhere; }
 .defense-secondary img.preview { width: 100%; object-fit: cover; }
 .defense-scene { max-width: 1180px; margin: 0 auto; padding: clamp(16px, 4vw, 34px); line-height: 1.65; }

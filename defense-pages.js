@@ -4,16 +4,12 @@
   const byId = id => document.getElementById(id);
   const welcome = byId('welcomeDialog');
   if (welcome) {
-    const key = 'workbench-intro-read-v1';
     const open = () => { if (!welcome.open) welcome.showModal(); };
-    welcome.addEventListener('close', () => {
-      try { sessionStorage.setItem(key, '1'); } catch {}
-    });
+    const close = () => welcome.close();
     byId('openWelcome').addEventListener('click', open);
-    byId('enterWorkbench').addEventListener('click', () => welcome.close());
-    let read = false;
-    try { read = sessionStorage.getItem(key) === '1'; } catch {}
-    if (!read) open();
+    byId('enterWorkbench').addEventListener('click', close);
+    byId('closeWelcome').addEventListener('click', close);
+    open();
     return;
   }
 
@@ -77,7 +73,11 @@
   });
 
   if (page === 'modeling') {
-    activate(byId('toggleTaskPanel'), () => { const inspector = byId('rightInspector'); inspector.hidden = !inspector.hidden; });
+    const inspector = byId('rightInspector');
+    activate(byId('toggleTaskPanel'), event => {
+      inspector.hidden = !inspector.hidden;
+      event.currentTarget.setAttribute('aria-expanded', String(!inspector.hidden));
+    });
     for (const tab of $$('[data-inspector-target]')) activate(tab, () => {
       for (const peer of $$('[data-inspector-target]')) {
         const selected = peer === tab;
@@ -86,7 +86,45 @@
         byId(peer.dataset.inspectorTarget)?.classList.toggle('hidden', !selected);
       }
     });
-    activate(byId('fullscreenView'), () => frame?.requestFullscreen()?.catch(() => {}));
+    activate(byId('fullscreenView'), () => byId('modelViewport').requestFullscreen()?.catch(() => {}));
+
+    const projectName = byId('projectName');
+    projectName.addEventListener('input', () => text('#contextProject', projectName.value.trim() || '未填写'));
+    const hint = byId('viewerHint');
+    const empty = byId('resultEmptyState');
+    for (const tab of $$('[data-viewport-mode]')) activate(tab, () => {
+      const results = tab.dataset.viewportMode === 'results';
+      for (const peer of $$('[data-viewport-mode]')) {
+        const selected = peer === tab;
+        peer.classList.toggle('active', selected);
+        peer.setAttribute('aria-selected', String(selected));
+      }
+      byId('modelViewport').classList.toggle('result-mode', results);
+      hint.hidden = results;
+      empty.classList.toggle('hidden', !results);
+    });
+
+    const resourceButtons = $$('[data-resource-panel]');
+    const selectResource = selected => {
+      for (const button of resourceButtons) {
+        const active = button === selected;
+        button.setAttribute('aria-selected', String(active));
+        button.classList.toggle('active', active);
+        byId(button.dataset.resourcePanel).classList.toggle('hidden', !active);
+      }
+    };
+    for (const button of resourceButtons) activate(button, () => {
+      selectResource(button.getAttribute('aria-selected') === 'true' ? null : button);
+    });
+    for (const button of $$('[data-close-resource]')) activate(button, () => selectResource(null));
+
+    activate(byId('resolve'), () => {
+      const invalid = $$('[data-model-parameter]').find(field => !field.reportValidity());
+      text('#modelingStatus', invalid ? '请检查尺寸参数' : '参数表单已检查');
+    });
+    activate(byId('generate'), () => {
+      text('#modelingStatus', '生成模型需在本地工作台完成');
+    });
     const mode = byId('modelMode');
     mode?.addEventListener('change', () => {
       byId('controlledScenePanel')?.classList.toggle('hidden', mode.value !== 'controlled');
@@ -153,7 +191,7 @@
       text('[data-demo-components]', building + '；' + ground);
       text('[data-demo-limitations]', '样例用于展示字段状态、明细与报告入口。');
       text('[data-demo-rules]', '展示样例采用固定状态。');
-      text('[data-demo-identity]', '开题答辩 · 固定样例');
+      text('[data-demo-identity]', '项目展示 · 固定样例');
       text('[data-demo-detail]', '此处展示选中构件的结果字段。');
       $('.demo-shell').dataset.demoState = 'ready';
     };
@@ -174,7 +212,7 @@
   }
   for (const file of $$('input[type="file"]')) file.disabled = true;
   for (const form of $$('form:not([method="dialog"])')) form.addEventListener('submit', event => event.preventDefault());
-  for (const element of $$('[role="status"]')) {
+  for (const element of $$('[role="status"]:not(#modelingStatus)')) {
     if (/正在载入|等待加载|正在初始化/.test(element.textContent)) element.textContent = '静态样例已就绪';
   }
 })();

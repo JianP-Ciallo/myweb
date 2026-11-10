@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <title>爆炸与建筑响应 · 答辩展示</title>
+  <title>爆炸与建筑响应 · 项目展示</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316758a'/%3E%3Cpath d='M8 25V9h7v16m2 0V5h7v20M5 25h22' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./blast_demo.css">
   <link rel="stylesheet" href="./workbench_theme.css">
@@ -16,10 +16,10 @@
   <script type="module" src="./preview.js"></script>
 <link rel="stylesheet" href="./defense-pages.css"><script defer src="./defense-pages.js"></script></head>
 <body class="workbench-theme cpu-blast-workbench has-workbench-navigation" data-workbench="blast" data-cpu-workbench>
-  <header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./" aria-current="page">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>三层阳台住宅 · CPU 响应</strong><button id="openWelcome" type="button">展示说明</button></div></header>
+  <header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./" aria-current="page">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>三层阳台住宅 · CPU 响应</strong><button id="openWelcome" type="button">项目内容介绍</button></div></header>
   <div class="cpu-page-heading">
     <div><span class="eyebrow">建筑场景 / CPU</span><h1>爆炸与建筑响应</h1><p>浏览三层住宅模型、切换视图，预览建筑响应工作台。</p></div>
-    <div class="cpu-heading-actions"><span class="cpu-badge">答辩展示 · 三维预览</span><a href="./blast_buildings.html">查看场景目录 ↗</a></div>
+    <div class="cpu-heading-actions"><span class="cpu-badge">项目展示 · 三维预览</span><a href="./blast_buildings.html">查看场景目录 ↗</a></div>
   </div>
   <main class="cpu-layout">
     <aside class="cpu-settings" aria-label="场景与视图">
@@ -69,13 +69,20 @@
         <button id="resetDemo" type="button">重置</button><button type="button" disabled>↓ 结果</button>
       </div>
       <div class="results">
-        <div class="metric"><span>计算用时</span><strong>—</strong><small>答辩展示</small></div>
+        <div class="metric"><span>计算用时</span><strong>—</strong><small>项目展示</small></div>
         <div class="metric"><span>脱落构件</span><strong>—</strong><small>静态预览</small></div>
         <div class="chart-card"><span>累计最大位移 / m</span><p class="hint">工程版结果区</p></div>
         <div class="chart-card"><span>累计脱落构件</span><p class="hint">工程版结果区</p></div>
       </div>
     </article>
   </main>
-  <dialog id="welcomeDialog" aria-labelledby="welcomeTitle"><p class="eyebrow">LSPREPOST-MCP / 开题答辩</p><h2 id="welcomeTitle">建筑建模与响应分析 · 展示说明</h2><p>本站用于开题答辩，展示从建模、三维预览、工况配置到结果评估的界面流程。</p><ul><li>关闭后进入三层阳台住宅。可拖动旋转、滚轮缩放、切换屋面和播放镜头。</li><li>顶部导航可进入建模、精细化工作台、固定建筑压力分析、CPU 响应及评估演示。</li><li>站点使用静态样例。实际工程计算、求解和任务提交需在本地工作台完成。</li></ul><div class="dialog-actions"><button id="enterWorkbench" type="button" autofocus>关闭说明，进入工作台</button></div></dialog>
+  <dialog id="welcomeDialog" aria-labelledby="welcomeTitle" aria-describedby="welcomeSummary">
+    <button id="closeWelcome" class="welcome-close" type="button" aria-label="关闭项目内容介绍">×</button>
+    <p class="eyebrow">LSPREPOST-MCP</p>
+    <h2 id="welcomeTitle">项目内容介绍</h2>
+    <p id="welcomeSummary">lsprepost-mcp 是一个面向结构工程的建模与响应分析工作台，组织场景参数、三维模型、工况配置和结果评估。</p>
+    <p>站点提供建模、精细化分析、固定建筑压力分析、CPU 响应和评估模块的界面与示例。首页展示三层阳台住宅，可以旋转模型、切换视角和查看屋面。</p>
+    <div class="dialog-actions"><button id="enterWorkbench" type="button" autofocus>进入工作台</button></div>
+  </dialog>
 </body>
 </html>

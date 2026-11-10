@@ -12,7 +12,7 @@
 
 
 <link rel="icon" href="data:,"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="stylesheet" href="./defense-pages.css"><script defer src="./workbench_chrome.js"></script><script defer src="./defense-pages.js"></script></head>
-<body class="workbench-theme defense-secondary has-workbench-navigation" data-workbench="modeling" data-defense-page="modeling"><header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html" aria-current="page">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>lsprepost-mcp · 开题答辩</strong><span role="status">静态展示 · 示例数据</span></div></header>
+<body class="workbench-theme defense-secondary has-workbench-navigation" data-workbench="modeling" data-defense-page="modeling"><header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html" aria-current="page">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>lsprepost-mcp · 项目展示</strong><span role="status">静态展示 · 示例数据</span></div></header>
   <div id="legacyWorkbenchRoot">
   <header class="topbar">
     <div>
@@ -50,7 +50,7 @@
             <strong>LS-PrePost</strong>
             <button class="panel-close" type="button" data-close-resource aria-label="关闭">×</button>
           </div>
-          <div id="lsppStatus" class="summary compact-summary">正在检查 LS-PrePost 配置。</div>
+          <div id="lsppStatus" class="summary compact-summary">LS-PrePost 路径在本地工作台配置。</div>
           <button id="importLspp" class="wide-button" type="button">导入 LS-PrePost</button>
           <details class="manual-path">
             <summary>高级：手动输入路径</summary>
@@ -128,18 +128,18 @@
 
           <label class="field">
             <span>项目名称</span>
-            <input id="projectName" type="text" value="web_scene_demo" autocomplete="off">
+            <input id="projectName" type="text" value="web_rebar_drop_on_helmet" autocomplete="off">
           </label>
         </div>
 
         <div id="controlledScenePanel">
           <label class="field">
             <span>场景模板</span>
-            <select id="scene"><option>三层阳台住宅 · 展示样例</option></select>
+            <select id="scene"><option value="rebar_drop_on_helmet">钢筋冲击头盔</option></select>
           </label>
 
           <div id="controlledSceneFields" class="scene-parameter-stack">
-            <p id="sceneSummary" class="summary">三层阳台住宅 · 16.8 × 12.0 m · 可视几何</p>
+            <p id="sceneSummary" class="summary">竖直实体钢筋从头盔上方起始，并以给定初速度冲击固定椭球壳。</p>
 
             <details class="parameter-group">
               <summary>
@@ -154,7 +154,14 @@
               </div>
             </details>
 
-            <div id="fields" class="fields parameter-groups"></div>
+            <div id="fields" class="fields parameter-groups"><details class="parameter-group" open>
+                <summary><span>几何与位置</span><small>尺寸参数</small></summary>
+                <div class="parameter-group-body">
+                  <label class="field"><span>钢筋长度 / m</span><input type="number" data-model-parameter min="0.001" step="any" value="1.0" required></label>
+                  <label class="field"><span>钢筋半径 / m</span><input type="number" data-model-parameter min="0.001" step="any" value="0.012" required></label>
+                  <label class="field"><span>起始高度 / m</span><input type="number" data-model-parameter min="0" step="any" value="0.5" required></label>
+                </div>
+              </details></div>
           </div>
         </div>
 
@@ -191,7 +198,7 @@
 
 
         <div class="actions" aria-label="建模操作">
-          <button id="resolve" class="secondary-button" type="button">检查模型</button>
+          <button id="resolve" class="secondary-button" type="button">解析参数</button>
           <button id="generate" type="button">生成模型</button>
           <button id="preview" class="secondary-button" type="button">生成预览</button>
           <details class="workbench-menu legacy-model-menu" data-workbench-menu><summary>更多操作</summary><div class="workbench-menu-content">
@@ -235,10 +242,15 @@
           <button id="fullscreenView" type="button" title="全屏查看三维模型">全屏</button>
         </div>
       </div>
-      <div id="contextStatus" class="context-status">当前示例 · 三层阳台住宅</div>
+      <div id="contextStatus" class="context-status">
+        <span class="context-chip"><b>场景</b><span>钢筋冲击头盔</span></span>
+        <span class="context-chip"><b>项目</b><span id="contextProject">web_rebar_drop_on_helmet</span></span>
+        <span class="context-chip"><b>视窗</b><span>尚未加载模型</span></span>
+        <span id="modelingStatus" class="context-state ok" role="status">等待加载模型</span>
+      </div>
       <div id="modelViewport" class="model-viewport">
         <div class="viewport-grid" aria-hidden="true"></div>
-        <iframe class="defense-model-frame" title="三层阳台住宅三维示例" src="./model-preview.html" allowfullscreen></iframe>
+        <canvas id="modelCanvas" class="model-canvas" hidden></canvas>
         <canvas id="phase17Canvas" class="model-canvas phase17-canvas hidden"></canvas>
         <div class="axis-widget" aria-hidden="true">
           <span class="axis-x">X</span>
@@ -259,9 +271,9 @@
         </div>
         <div id="resultEmptyState" class="result-empty-state hidden" aria-live="polite">
           <strong id="resultEmptyTitle">暂无可显示的求解结果</strong>
-          <span id="resultEmptyMessage">选择已生成项目后读取真实求解记录。</span>
+          <span id="resultEmptyMessage">求解结果可在本地工作台查看。</span>
         </div>
-        <div id="viewerHint" class="viewer-hint">拖动旋转 · 滚轮缩放</div>
+        <div id="viewerHint" class="viewer-hint">生成模型后，可在这里拖动旋转、滚轮缩放、右键平移。</div>
         <div id="previewBox" class="preview-box hidden"></div>
       </div>
       <div id="resultControls" class="result-controls hidden">
