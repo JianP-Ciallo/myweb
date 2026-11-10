@@ -6,6 +6,9 @@
   if (welcome) {
     const open = () => { if (!welcome.open) welcome.showModal(); };
     const close = () => welcome.close();
+    welcome.addEventListener('close', () => {
+      if (!welcome.open) welcome.querySelector('video')?.pause();
+    });
     byId('openWelcome').addEventListener('click', open);
     byId('enterWorkbench').addEventListener('click', close);
     byId('closeWelcome').addEventListener('click', close);
