@@ -1,0 +1,161 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>精细化建筑爆炸工作台 · 答辩展示</title><link rel="icon" href="data:,"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./refined_blast_workbench.css"><link rel="stylesheet" href="./workbench_chrome.css"><link rel="stylesheet" href="./workbench_theme.css"><link rel="stylesheet" href="./defense-pages.css"><script defer src="./workbench_chrome.js"></script><script defer src="./defense-pages.js"></script></head><body class="workbench-theme defense-secondary has-workbench-navigation" data-workbench="refined" data-defense-page="refined"><header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html">建模工作台</a><a href="./refined-blast.html" aria-current="page">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>lsprepost-mcp · 开题答辩</strong><span role="status">静态展示 · 示例数据</span></div></header><main class="refined-blast-shell">
+    <header class="topbar refined-blast-topbar">
+      <div class="refined-blast-title-block">
+        <h1 id="refinedBlastWorkbenchTitle">精细化建筑爆炸工作台</h1>
+        <p>配置工况 · 预览模型 · 生成 K 包</p>
+      </div>
+      <div class="refined-blast-project-status" aria-label="项目状态">
+        <span data-refined-project-summary>未创建项目</span>
+        <span data-refined-save-summary>草稿未保存</span>
+        <span data-refined-check-summary>尚未检查</span>
+      </div>
+      <div class="refined-blast-top-actions">
+    <details class="refined-blast-onboarding workbench-menu" data-workbench-menu data-refined-onboarding aria-label="首次使用流程">
+      <summary>使用指引</summary>
+      <div class="workbench-menu-content">
+      <ol>
+        <li data-refined-workflow-step="select"><b>1</b><span>选择工况<small>建筑、结构和载荷方式</small></span></li>
+        <li data-refined-workflow-step="save"><b>2</b><span>创建项目并保存草稿<small>首次保存将自动创建独立项目</small></span></li>
+        <li data-refined-workflow-step="preview"><b>3</b><span>刷新轻量预览<small>不编译完整 K 文件</small></span></li>
+        <li data-refined-workflow-step="validate"><b>4</b><span>验证并生成<small>检查通过后才生成 K 包</small></span></li>
+      </ol>
+      </div>
+    </details>
+        <button class="secondary-button" type="button" data-refined-new-scenario>新建工况</button>
+        <button id="refinedBlastBack" class="secondary-button" type="button" data-refined-back aria-label="返回原工作台">返回原工作台</button>
+      </div>
+    </header>
+    <div class="refined-blast-layout" aria-labelledby="refinedBlastWorkbenchTitle">
+      <section class="viewport-panel refined-blast-preview" aria-label="分层预览">
+        <div class="viewport-toolbar refined-blast-preview-toolbar">
+          <div>
+            <strong>模型预览</strong>
+            <span id="refinedBlastPreviewStatus" class="panel-note">三层阳台住宅 · 展示样例</span>
+          </div>
+          <div class="refined-blast-camera-controls" aria-label="相机控制">
+            <button class="secondary-button refined-blast-inspector-toggle" type="button" data-refined-inspector-toggle aria-expanded="true" aria-controls="refinedBlastInspector">配置</button>
+            <button id="refinedBlastCameraFit" class="secondary-button" type="button" data-refined-camera="iso" aria-label="适配预览相机">适配</button>
+            <details class="workbench-menu refined-blast-camera-menu" data-workbench-menu><summary>视角</summary><div class="workbench-menu-content">
+            <button id="refinedBlastCameraIso" class="secondary-button" type="button" data-refined-camera="iso" aria-label="切换到等轴相机">等轴</button>
+            <button id="refinedBlastCameraFront" class="secondary-button" type="button" data-refined-camera="front" aria-label="切换到正视相机">正视</button>
+            <button id="refinedBlastCameraTop" class="secondary-button" type="button" data-refined-camera="top" aria-label="切换到俯视相机">俯视</button>
+            </div></details>
+          </div>
+        </div>
+        <div class="refined-blast-preview-stage">
+          <div class="refined-blast-preview-canvas" role="region" data-refined-preview-canvas aria-label="精细化建筑爆炸分层预览区"><iframe class="defense-model-frame" title="三层阳台住宅三维示例" src="./model-preview.html" allowfullscreen></iframe>
+            <span>预览将在创建独立项目后显示。</span>
+          </div>
+          <button class="secondary-button refined-blast-layer-toggle" type="button" data-refined-layer-toggle aria-expanded="false" aria-controls="refinedBlastLayerPopover">图层 <span data-refined-layer-count>9/9</span></button>
+          <section id="refinedBlastLayerPopover" class="refined-blast-layer-popover" data-refined-layer-popover hidden aria-labelledby="refinedBlastLayersHeading">
+            <div class="refined-blast-popover-heading"><h2 id="refinedBlastLayersHeading">预览图层</h2><button type="button" class="secondary-button" data-refined-layer-close aria-label="关闭图层面板">关闭</button></div>
+            <div class="refined-blast-layer-grid">
+<label><input type="checkbox" id="refinedRoof" checked>屋面</label>
+            </div>
+          </section>
+        </div>
+        <details class="refined-blast-metrics"><summary>规模摘要 <span data-refined-metric-summary>尚未生成估算</span></summary><div class="summary refined-blast-estimate" data-refined-preview-counts>当前草稿没有估算。</div></details>
+      </section>
+      <aside id="refinedBlastInspector" class="sidebar refined-blast-inspector" aria-label="配置与验证">
+      <div class="refined-blast-step-rail" aria-label="精细化建筑爆炸配置导航">
+        <nav aria-label="工况配置步骤">
+          <ol class="refined-blast-nav-list">
+<li><button class="refined-blast-nav-button is-active" type="button" data-refined-section="1"><span>01</span><b>建筑</b><em>示例</em><small>建筑空间与洞口</small></button></li><li><button class="refined-blast-nav-button" type="button" data-refined-section="2"><span>02</span><b>结构</b><em>示例</em><small>结构体系与承重构件</small></button></li><li><button class="refined-blast-nav-button" type="button" data-refined-section="3"><span>03</span><b>连接</b><em>示例</em><small>结构连接</small></button></li><li><button class="refined-blast-nav-button" type="button" data-refined-section="4"><span>04</span><b>构件</b><em>示例</em><small>非承重构件</small></button></li><li><button class="refined-blast-nav-button" type="button" data-refined-section="5"><span>05</span><b>材料</b><em>示例</em><small>材料与截面</small></button></li><li><button class="refined-blast-nav-button" type="button" data-refined-section="6"><span>06</span><b>网格</b><em>示例</em><small>网格与地面</small></button></li><li><button class="refined-blast-nav-button" type="button" data-refined-section="7"><span>07</span><b>工况</b><em>示例</em><small>工况与输出</small></button></li><li><button class="refined-blast-nav-button" type="button" data-refined-section="8"><span>08</span><b>检查</b><em>示例</em><small>检查与生成</small></button></li>
+          </ol>
+        </nav>
+      </div>
+        <div class="inspector-heading">
+          <div><span class="section-kicker">当前步骤</span><strong data-refined-step-title>01 · 建筑空间与洞口</strong></div>
+          <div class="refined-blast-inspector-tabs" role="tablist" aria-label="配置与检查">
+            <button id="refinedBlastConfigTab" type="button" role="tab" aria-selected="true" aria-controls="refinedBlastConfigPanel" tabindex="0" data-refined-inspector-tab="config">配置</button>
+            <button id="refinedBlastChecksTab" type="button" role="tab" aria-selected="false" aria-controls="refinedBlastChecksPanel" tabindex="-1" data-refined-inspector-tab="checks">检查</button>
+          </div>
+        </div>
+        <section id="refinedBlastConfigPanel" class="refined-blast-schema-panel" role="tabpanel" aria-labelledby="refinedBlastConfigTab" data-refined-schema-panel data-refined-inspector-panel="config">
+          <h2>当前字段</h2>
+          <p class="panel-note">此处显示当前步骤的静态说明。</p>
+        </section>
+        <div id="refinedBlastChecksPanel" class="refined-blast-checks" role="tabpanel" aria-labelledby="refinedBlastChecksTab" data-refined-inspector-panel="checks" hidden>
+          <section class="refined-blast-validation-panel" data-refined-validation-panel>
+            <div class="refined-blast-section-heading"><h2>即时检查</h2><button class="secondary-button" type="button" data-refined-validate>验证当前版本</button></div>
+            <div class="summary" data-refined-validation-status aria-live="polite">等待独立项目、草稿和能力描述。</div>
+            <div id="refinedBlastConflict" class="refined-blast-conflict" role="alert" aria-live="assertive" aria-atomic="true"></div>
+            <div class="refined-blast-finding-list" data-refined-validation-findings aria-live="polite"></div>
+          </section>
+          <section class="refined-blast-validation-panel" data-refined-budget-panel>
+            <h2>预算与确认</h2>
+            <p class="panel-note">确认与当前 validation/revision 绑定。</p>
+            <div class="refined-blast-budget-list" data-refined-budget-rows></div>
+          </section>
+        </div>
+      </aside>
+    </div>
+    <footer class="refined-blast-action-bar" aria-label="独立工况操作">
+      <span class="refined-blast-save-state" data-refined-action-status>静态展示</span>
+      <div class="refined-blast-action-group">
+        <button id="refinedBlastSave" class="secondary-button" type="button" data-refined-save disabled>创建项目并保存草稿</button>
+        <button id="refinedBlastPreview" class="secondary-button" type="button" data-refined-preview>刷新预览</button>
+      </div>
+      <div class="refined-blast-action-group refined-blast-action-primary">
+        <button id="refinedBlastValidate" class="secondary-button" type="button" data-refined-validate>验证</button>
+        <button id="refinedBlastGenerate" type="button" data-refined-generate disabled aria-describedby="refinedBlastConflict">生成 K 包</button>
+      </div>
+      <details class="refined-blast-external-menu" data-workbench-menu>
+        <summary>更多操作</summary>
+        <div>
+          <button id="refinedBlastOpenLsprepost" class="secondary-button" type="button" data-refined-open-lsprepost disabled aria-describedby="refinedBlastConflict">打开 LS-PrePost</button>
+          <button id="refinedBlastLaunchLsdyna" class="secondary-button" type="button" data-refined-launch-lsdyna disabled aria-describedby="refinedBlastConflict">启动 LS-DYNA</button>
+      <button id="refinedBlastAssessment" type="button" class="secondary-button refined-damage-entry" data-refined-assessment aria-haspopup="dialog" aria-controls="refinedDamagePanel">损伤评估</button>
+        </div>
+      </details>
+      <span data-refined-external-status aria-live="polite"></span>
+    </footer>
+    <dialog id="refinedDamagePanel" class="refined-damage-panel" data-damage-panel aria-labelledby="refinedDamageTitle">
+      <header class="refined-damage-heading">
+        <div><span class="section-kicker">求解后分析</span><h2 id="refinedDamageTitle">建筑与地面损伤评估</h2></div>
+        <button type="button" class="secondary-button" data-damage-close aria-label="关闭损伤评估面板">关闭</button>
+      </header>
+      <div class="refined-damage-content">
+        <section class="refined-damage-card refined-damage-demo-intro">
+          <h3>第一次使用？先看一个完整案例</h3>
+          <p>进入三层建筑与地面的合成演示，修改爆源并重新评估，查看构件着色与报告。无需真实求解文件，不改动当前项目。</p>
+          <button type="button" data-damage-demo aria-haspopup="dialog" aria-controls="refinedDamageDemo">查看演示</button>
+        </section>
+        <p class="refined-damage-project" data-damage-project>当前项目：未选择</p>
+        <section class="refined-damage-card" aria-labelledby="refinedDamageConditions">
+          <h3 id="refinedDamageConditions">评估条件</h3>
+          <p data-damage-capability>评估模块：待检查</p>
+          <p data-damage-source>求解结果：待核验</p>
+          <p class="panel-note">只读取当前项目已有结果，不重新建模、不启动求解器。</p>
+          <div class="refined-damage-actions">
+            <button type="button" data-damage-start disabled>开始评估</button>
+            <button type="button" class="secondary-button" data-damage-refresh>刷新状态与报告</button>
+          </div>
+          <p class="refined-damage-status" role="status" aria-live="polite" aria-atomic="true" data-damage-status>打开面板不会自动执行评估。</p>
+        </section>
+        <section class="refined-damage-card" aria-labelledby="refinedDamageResultTitle">
+          <h3 id="refinedDamageResultTitle">评估结果</h3>
+          <p data-damage-result>尚未评估</p>
+          <div class="refined-damage-subjects">
+            <div><h4>建筑</h4><p data-damage-building>待评估</p></div>
+            <div><h4>地面</h4><p data-damage-ground>待评估</p></div>
+          </div>
+          <details class="refined-damage-evidence" open><summary>提示与证据不足原因</summary><div data-damage-issues></div></details>
+        </section>
+        <section class="refined-damage-card" aria-labelledby="refinedDamageReportTitle">
+          <h3 id="refinedDamageReportTitle">报告与明细</h3>
+          <div class="refined-damage-actions">
+            <a class="secondary-button" data-damage-view aria-disabled="true" tabindex="-1">查看报告</a>
+            <a class="secondary-button" data-damage-download aria-disabled="true" tabindex="-1">下载报告</a>
+            <a class="secondary-button" data-damage-building-csv aria-disabled="true" tabindex="-1">建筑明细 CSV</a>
+            <a class="secondary-button" data-damage-ground-csv aria-disabled="true" tabindex="-1">地面明细 CSV</a>
+          </div>
+          <p class="panel-note">仅提供已登记产物。最新报告可能属于较早版本，请核对报告中的求解记录。</p>
+        </section>
+      </div>
+      <footer class="refined-damage-disclaimer">研究参考 · 不能替代专业结构安全鉴定；等级 0 不代表建筑安全。</footer>
+    </dialog>
+    <dialog id="refinedDamageDemo" class="refined-damage-demo" data-damage-demo-panel aria-labelledby="refinedDamageDemoTitle">
+      <header class="refined-damage-demo-heading"><div><strong id="refinedDamageDemoTitle">损伤评估 · 交互演示</strong><span>合成数据演示，不修改当前项目</span></div><button type="button" class="secondary-button" data-damage-demo-exit>退出演示，返回原项目</button></header>
+      <div class="refined-damage-demo-frame-host" data-damage-demo-host></div>
+    </dialog></main></body></html>

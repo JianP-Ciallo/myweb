@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lsprepost-mcp 本地建模工作台</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./refined_blast_workbench.css">
+  <link rel="stylesheet" href="./workbench_chrome.css">
+  <link rel="stylesheet" href="./fixed_building_entry.css">
+  <link rel="stylesheet" href="./workbench_theme.css">
+
+
+<link rel="icon" href="data:,"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="stylesheet" href="./defense-pages.css"><script defer src="./workbench_chrome.js"></script><script defer src="./defense-pages.js"></script></head>
+<body class="workbench-theme defense-secondary has-workbench-navigation" data-workbench="modeling" data-defense-page="modeling"><header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html" aria-current="page">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>lsprepost-mcp · 开题答辩</strong><span role="status">静态展示 · 示例数据</span></div></header>
+  <div id="legacyWorkbenchRoot">
+  <header class="topbar">
+    <div>
+      <h1>lsprepost-mcp 本地建模工作台</h1>
+      <p>受控场景建模、K 文件生成与 LS-PrePost 预览</p>
+    </div>
+    <div class="topbar-actions">
+      <button id="openRefinedBlastWorkbench" class="secondary-button" type="button">精细化建筑爆炸</button>
+      <a id="openFixedBuildingWorkspace" class="secondary-button fixed-building-entry" href="./fixed_building_preview.html">固定建筑压力分析</a>
+      <button id="toggleTaskPanel" class="secondary-button" type="button" aria-expanded="false" aria-controls="rightInspector">任务面板</button>
+    </div>
+  </header>
+
+  <main class="workbench-layout">
+    <aside id="leftWorkbench" class="sidebar left-sidebar">
+      <section class="resource-strip" aria-label="工作区资源">
+        <h2>工作区</h2>
+        <div class="resource-buttons" role="tablist" aria-label="资源配置">
+          <button class="resource-button" type="button" data-resource-panel="lsppResourcePanel" aria-selected="false">
+            <span class="resource-mark">PP</span>
+            <span>LS-PrePost</span>
+          </button>
+          <button class="resource-button" type="button" data-resource-panel="exportResourcePanel" aria-selected="false">
+            <span class="resource-mark">DIR</span>
+            <span>保存位置</span>
+          </button>
+          <button class="resource-button" type="button" data-resource-panel="importResourcePanel" aria-selected="false">
+            <span class="resource-mark">K</span>
+            <span>导入模型</span>
+          </button>
+        </div>
+
+        <div id="lsppResourcePanel" class="resource-panel hidden">
+          <div class="resource-panel-heading">
+            <strong>LS-PrePost</strong>
+            <button class="panel-close" type="button" data-close-resource aria-label="关闭">×</button>
+          </div>
+          <div id="lsppStatus" class="summary compact-summary">正在检查 LS-PrePost 配置。</div>
+          <button id="importLspp" class="wide-button" type="button">导入 LS-PrePost</button>
+          <details class="manual-path">
+            <summary>高级：手动输入路径</summary>
+            <label class="field">
+              <span>lsprepost*.exe 路径</span>
+              <input id="lsppExe" type="text" placeholder="<LS_PREPOST_INSTALL_DIR>\lsprepost4.12.exe" autocomplete="off">
+            </label>
+            <div class="config-actions" aria-label="LS-PrePost 路径配置">
+              <button id="checkLspp" type="button">检测路径</button>
+              <button id="saveLspp" type="button">保存路径</button>
+            </div>
+          </details>
+        </div>
+
+        <div id="exportResourcePanel" class="resource-panel hidden">
+          <div class="resource-panel-heading">
+            <strong>模型保存位置</strong>
+            <button class="panel-close" type="button" data-close-resource aria-label="关闭">×</button>
+          </div>
+          <div id="exportDirStatus" class="summary">未配置自定义保存路径。</div>
+          <button id="selectExportDir" class="wide-button" type="button">选择保存文件夹</button>
+          <details class="manual-path">
+            <summary>高级：手动输入路径</summary>
+            <label class="field">
+              <span>保存文件夹</span>
+              <input id="exportDir" type="text" placeholder="<USER_MODEL_EXPORT_DIR>" autocomplete="off">
+            </label>
+            <div class="config-actions" aria-label="模型保存路径配置">
+              <button id="saveExportDir" type="button">保存路径</button>
+            </div>
+          </details>
+        </div>
+
+        <div id="importResourcePanel" class="resource-panel hidden">
+          <div class="resource-panel-heading">
+            <strong>导入已有模型</strong>
+            <button class="panel-close" type="button" data-close-resource aria-label="关闭">×</button>
+          </div>
+          <div id="importPackageStatus" class="summary">请选择包含 model.k、model.json 和 checks.json 的模型文件夹；缺少导出记录时系统会自动补建。</div>
+          <label class="field">
+            <span>导入后的项目名称</span>
+            <input id="importPackageProjectName" type="text" placeholder="留空则使用文件夹名称" autocomplete="off">
+          </label>
+          <button id="selectImportPackageDir" class="wide-button" type="button">选择模型文件夹</button>
+          <details class="manual-path">
+            <summary>高级：手动输入路径</summary>
+            <label class="field">
+              <span>完整模型文件夹</span>
+              <input id="importPackageDir" type="text" placeholder="<MODEL_PACKAGE_DIR>" autocomplete="off">
+            </label>
+            <div class="config-actions" aria-label="导入完整模型文件夹">
+              <button id="importPackage" type="button">导入模型</button>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="tool-section modeling-section">
+        <div class="section-title-row">
+          <div>
+            <span class="section-kicker">01 建模</span>
+            <h2>场景与参数</h2>
+          </div>
+        </div>
+        <div class="scene-selection-grid">
+          <label class="field">
+            <span>建模模式</span>
+            <select id="modelMode">
+              <option value="controlled">受控场景</option>
+              <option value="assembly">自由装配</option>
+
+
+            </select>
+          </label>
+
+          <label class="field">
+            <span>项目名称</span>
+            <input id="projectName" type="text" value="web_scene_demo" autocomplete="off">
+          </label>
+        </div>
+
+        <div id="controlledScenePanel">
+          <label class="field">
+            <span>场景模板</span>
+            <select id="scene"><option>三层阳台住宅 · 展示样例</option></select>
+          </label>
+
+          <div id="controlledSceneFields" class="scene-parameter-stack">
+            <p id="sceneSummary" class="summary">三层阳台住宅 · 16.8 × 12.0 m · 可视几何</p>
+
+            <details class="parameter-group">
+              <summary>
+                <span>需求描述</span>
+                <small>自然语言补充</small>
+              </summary>
+              <div class="parameter-group-body">
+                <label class="field">
+                  <span>需求描述</span>
+                  <textarea id="prompt" rows="3"></textarea>
+                </label>
+              </div>
+            </details>
+
+            <div id="fields" class="fields parameter-groups"></div>
+          </div>
+        </div>
+
+        <div id="assemblyPanel" class="hidden">
+          <div class="blast-preset-panel">
+            <label class="field compact-field">
+              <span>Phase 13 简化爆炸预设</span>
+              <select id="blastCaseSelect"></select>
+            </label>
+            <button id="loadPhase13BlastCase" class="secondary-button" type="button">载入预设</button>
+          </div>
+          <div class="section-heading-row">
+            <h2>组件</h2>
+            <div class="mini-actions">
+              <button id="loadBlastDemo" class="secondary-button" type="button">载入爆炸样例</button>
+              <button id="addComponent" class="secondary-button" type="button">添加组件</button>
+            </div>
+          </div>
+          <p class="panel-note">组件可为一个或多个。尺寸、位置和网格均采用米制单位。</p>
+          <div id="assemblyComponents" class="assembly-list"></div>
+
+          <div class="section-heading-row">
+            <h2>物理动作</h2>
+            <button id="addPhysicsAction" class="secondary-button" type="button">添加动作</button>
+          </div>
+          <p class="panel-note">接触、固定、初速度和载荷独立于组件设置。</p>
+          <div id="assemblyActions" class="assembly-list"></div>
+        </div>
+
+
+
+
+
+
+
+        <div class="actions" aria-label="建模操作">
+          <button id="resolve" class="secondary-button" type="button">检查模型</button>
+          <button id="generate" type="button">生成模型</button>
+          <button id="preview" class="secondary-button" type="button">生成预览</button>
+          <details class="workbench-menu legacy-model-menu" data-workbench-menu><summary>更多操作</summary><div class="workbench-menu-content">
+          <button id="openLspp" class="secondary-button" type="button">打开 LS-PrePost</button>
+          <button id="startPhase17City" class="secondary-button" type="button">编辑城市场景</button>
+          </div></details>
+        </div>
+      </section>
+    </aside>
+
+    <section id="centerViewport" class="viewport-panel">
+      <div class="viewport-toolbar" aria-label="视窗工具栏">
+        <div class="viewport-heading">
+          <strong>三维视窗</strong>
+          <div class="viewport-mode-switch" role="tablist" aria-label="视窗模式">
+            <button id="modelViewMode" class="active" type="button" data-viewport-mode="model" aria-selected="true">建模预览</button>
+            <button id="resultViewMode" type="button" data-viewport-mode="results" aria-selected="false">求解结果</button>
+          </div>
+        </div>
+        <div class="viewport-buttons" aria-label="视图与显示控制">
+          <details id="legacyDisplayMenu" class="workbench-menu" data-workbench-menu><summary>显示设置</summary><div class="workbench-menu-content">
+          <label class="viewport-select" for="displayMode">
+            <span>显示</span>
+            <select id="displayMode" title="切换实体、边线或线框显示">
+              <option value="solid_edges">实体与边线</option>
+              <option value="solid">仅实体</option>
+              <option value="wireframe">线框</option>
+            </select>
+          </label>
+          <button id="toggleGrid" class="active" type="button" title="显示或隐藏世界网格">网格</button>
+          <button id="toggleLegend" class="active" type="button" title="显示或隐藏部件图例">图例</button>
+          <button id="toggleBlastSources" class="active" type="button" title="显示或隐藏爆源位置">爆源</button>
+          <button id="showAllParts" type="button" title="恢复显示全部部件">全部</button>
+          </div></details>
+          <button id="fitView" type="button" title="将模型适配到当前视窗">适配</button>
+          <details class="workbench-menu" data-workbench-menu><summary>视角</summary><div class="workbench-menu-content">
+          <button id="isoView" type="button" title="切换到等轴测视图">等轴</button>
+          <button id="topView" type="button" title="切换到顶视图">顶</button>
+          <button id="frontView" type="button" title="切换到前视图">前</button>
+          </div></details>
+          <button id="fullscreenView" type="button" title="全屏查看三维模型">全屏</button>
+        </div>
+      </div>
+      <div id="contextStatus" class="context-status">当前示例 · 三层阳台住宅</div>
+      <div id="modelViewport" class="model-viewport">
+        <div class="viewport-grid" aria-hidden="true"></div>
+        <iframe class="defense-model-frame" title="三层阳台住宅三维示例" src="./model-preview.html" allowfullscreen></iframe>
+        <canvas id="phase17Canvas" class="model-canvas phase17-canvas hidden"></canvas>
+        <div class="axis-widget" aria-hidden="true">
+          <span class="axis-x">X</span>
+          <span class="axis-y">Y</span>
+          <span class="axis-z">Z</span>
+        </div>
+        <div id="partLegend" class="part-legend hidden" aria-label="部件图例"></div>
+        <div id="selectionPanel" class="selection-panel hidden" aria-live="polite">
+          <div class="selection-panel-heading">
+            <strong id="selectedPartName">未选择部件</strong>
+            <button id="clearPartSelection" type="button" title="清除部件选择">×</button>
+          </div>
+          <div id="selectedPartMeta" class="selection-meta"></div>
+          <div class="selection-actions">
+            <button id="isolateSelectedPart" type="button">仅看此部件</button>
+            <button id="hideSelectedPart" type="button">隐藏</button>
+          </div>
+        </div>
+        <div id="resultEmptyState" class="result-empty-state hidden" aria-live="polite">
+          <strong id="resultEmptyTitle">暂无可显示的求解结果</strong>
+          <span id="resultEmptyMessage">选择已生成项目后读取真实求解记录。</span>
+        </div>
+        <div id="viewerHint" class="viewer-hint">拖动旋转 · 滚轮缩放</div>
+        <div id="previewBox" class="preview-box hidden"></div>
+      </div>
+      <div id="resultControls" class="result-controls hidden">
+        <div>
+          <strong>结果变量</strong>
+          <select id="resultVariable" disabled>
+            <option value="">等待可用结果</option>
+          </select>
+        </div>
+        <button id="resultPlay" type="button" disabled title="播放结果动画">播放</button>
+        <input id="resultTimeline" type="range" min="0" max="1" value="0" disabled aria-label="结果时间步">
+        <output id="resultTime">时间：--</output>
+        <button id="refreshResultStatus" type="button">刷新状态</button>
+      </div>
+    </section>
+
+    <aside id="rightInspector" class="sidebar right-sidebar" hidden>
+      <div class="inspector-heading">
+        <span class="section-kicker">02 检查与输出</span>
+        <strong>任务面板</strong>
+        <button id="closeTaskPanel" type="button" class="secondary-button" aria-label="收起任务面板">收起</button>
+      </div>
+      <div class="inspector-tabs" role="tablist" aria-label="任务面板">
+        <button class="inspector-tab active" type="button" data-inspector-target="inspectorSolve" aria-selected="true">求解</button>
+        <button class="inspector-tab" type="button" data-inspector-target="cityImpactSection" aria-selected="false">影响评估</button>
+        <button class="inspector-tab" type="button" data-inspector-target="inspectorProjects" aria-selected="false">项目</button>
+        <button class="inspector-tab" type="button" data-inspector-target="inspectorResults" aria-selected="false">日志</button>
+        <button id="phase17EditorTab" class="inspector-tab hidden" type="button" data-inspector-target="phase17EditorPanel" aria-selected="false">编辑</button>
+      </div>
+
+      <section id="phase17EditorPanel" class="inspector-panel hidden">
+        <h2>城市场景编辑</h2>
+        <div id="phase17EditorStatus" class="summary">尚未加载编辑草案。</div>
+        <div class="phase17-panel-tabs" role="tablist" aria-label="城市场景编辑工具">
+          <button id="phase17ObjectsTab" class="active" type="button" aria-selected="true">场景对象</button>
+          <button id="phase17LibraryTab" type="button" aria-selected="false">组件库</button>
+        </div>
+        <div id="phase17ObjectsPanel">
+        <label class="field">
+          <span>选中对象</span>
+          <select id="phase17ObjectSelect"></select>
+        </label>
+        <div id="phase17ComponentSummary" class="phase17-component-summary" aria-live="polite"></div>
+        <div class="phase17-mode-control" role="group" aria-label="变换模式">
+          <button id="phase17TranslateMode" class="active" type="button">移动</button>
+          <button id="phase17RotateMode" type="button">旋转</button>
+        </div>
+        <div class="phase17-transform-grid" aria-label="对象变换数值">
+          <label class="field compact-field"><span>X (m)</span><input id="phase17X" type="number" step="0.01"></label>
+          <label class="field compact-field"><span>Y (m)</span><input id="phase17Y" type="number" step="0.01"></label>
+          <label class="field compact-field"><span>Z (m)</span><input id="phase17Z" type="number" step="0.01"></label>
+          <label class="field compact-field"><span>绕 Z (°)</span><input id="phase17Rz" type="number" step="1"></label>
+        </div>
+        <div class="config-actions">
+          <button id="phase17ApplyTransform" type="button">应用</button>
+          <button id="phase17Undo" type="button" title="撤销">↶</button>
+          <button id="phase17Redo" type="button" title="重做">↷</button>
+          <button id="phase17Reset" type="button" title="复位">⟲</button>
+        </div>
+        <div class="phase17-instance-actions" aria-label="组件实例操作">
+          <button id="phase17DuplicateComponent" type="button" title="复制到下一个安全位置">复制组件</button>
+          <button id="phase17DeleteComponent" class="danger-button" type="button" title="从草案中删除该组件">删除组件</button>
+        </div>
+        <fieldset class="phase17-ground-response">
+          <legend>地面响应</legend>
+          <label class="toggle-field">
+            <input id="phase17GroundCraterEnabled" type="checkbox">
+            <span>验证型 K&amp;C 侵蚀破坑</span>
+          </label>
+          <div class="phase17-transform-grid">
+            <label class="field compact-field">
+              <span>预期坑深 (m)</span>
+              <input id="phase17GroundCraterDepth" type="number" min="0.1" max="2" step="0.1" value="0.6" disabled>
+            </label>
+            <label class="field compact-field">
+              <span>ALE 重叠层数</span>
+              <select id="phase17GroundOverlapLayers" disabled>
+                <option value="5">5</option>
+                <option value="7">7</option>
+              </select>
+            </label>
+          </div>
+          <div id="phase17GroundCraterStatus" class="summary compact-summary">当前使用表面地面，不计算破坑。</div>
+        </fieldset>
+        </div>
+        <div id="phase17LibraryPanel" class="hidden">
+          <p class="panel-note">仅显示已通过城市场景兼容登记的组件。车辆、地铁入口和钢制防护箱均通过支承、碰撞、ALE/FSI 与结果过期检查后加入。</p>
+          <div id="phase17LibraryList" class="phase17-library-list"></div>
+        </div>
+        <label class="field">
+          <span>新项目名称</span>
+          <input id="phase17ProjectName" type="text" value="web_phase17_city_street_blast">
+        </label>
+        <button id="phase17Generate" class="wide-button" type="button">生成新项目</button>
+        <button id="phase17ValidateLspp" class="wide-button" type="button" disabled>LS-PrePost 导入检查</button>
+        <div id="phase17LsppEvidence" class="summary hidden" aria-live="polite"></div>
+        <button id="phase17ValidationImage" class="wide-button secondary-button hidden" type="button">查看导入检查图</button>
+      </section>
+
+      <section id="cityImpactSection" class="inspector-panel impact-section hidden">
+        <h2>城市影响评估</h2>
+        <div id="cityImpactStatus" class="summary">请选择城市街道项目。</div>
+        <div class="impact-risk-legend" aria-label="风险等级图例">
+          <span class="risk-chip risk-low">低</span>
+          <span class="risk-chip risk-attention">关注</span>
+          <span class="risk-chip risk-high">较高</span>
+          <span class="risk-chip risk-severe">严重</span>
+          <span class="risk-chip risk-unavailable">无法评估</span>
+        </div>
+        <div class="config-actions">
+          <button id="readCityImpact" type="button">读取评估</button>
+          <button id="exportCityImpact" type="button">导出报告</button>
+        </div>
+        <div id="cityImpactObjects" class="impact-objects" aria-live="polite"></div>
+        <div id="cityImpactDetail" class="impact-detail hidden"></div>
+      </section>
+
+      <section id="inspectorSolve" class="inspector-panel solve-section">
+        <div class="panel-header-copy">
+          <h2>求解任务</h2>
+          <p>配置本机程序并提交当前项目。直接求解仍需输入项目名确认。</p>
+        </div>
+        <div id="lsrunStatus" class="summary">尚未配置 LS-Run。</div>
+        <div class="solver-program-grid">
+          <button id="importLsrun" class="secondary-button" type="button">选择 LS-Run</button>
+          <button id="importLsdyna" class="secondary-button" type="button">选择求解器</button>
+        </div>
+        <details class="parameter-group">
+          <summary><span>程序路径</span><small>高级配置</small></summary>
+          <div class="parameter-group-body">
+            <label class="field">
+              <span>lsrun.exe 路径</span>
+              <input id="lsrunExe" type="text" placeholder="<LS_RUN_INSTALL_DIR>\lsrun.exe" autocomplete="off">
+            </label>
+            <div class="config-actions" aria-label="LS-Run 路径配置">
+              <button id="checkLsrun" type="button">检测 LS-Run</button>
+              <button id="saveLsrun" type="button">保存 LS-Run</button>
+            </div>
+            <label class="field solve-field">
+              <span>LS-DYNA 求解器路径</span>
+              <input id="lsdynaExe" type="text" placeholder="<LS_DYNA_SOLVER_DIR>\lsdyna.exe" autocomplete="off">
+            </label>
+            <div class="config-actions" aria-label="LS-DYNA 求解器路径配置">
+              <button id="checkLsdyna" type="button">检测求解器</button>
+              <button id="saveLsdyna" type="button">保存求解器</button>
+            </div>
+          </div>
+        </details>
+        <details class="parameter-group">
+          <summary><span>计算资源</span><small>3 项</small></summary>
+          <div class="parameter-group-body">
+            <details class="manual-path"><summary>查看命令</summary><div id="solveCommandPreview" class="command-preview">"$SOLVER" i="$INPUT" ncpu=$NCPU memory=$MEMORY</div></details>
+            <div class="solve-resource-grid" aria-label="LS-DYNA 求解资源">
+              <label class="field compact-field">
+                <span>CPU 核数</span>
+                <input id="solveNcpu" type="number" min="1" max="64" step="1" value="4">
+              </label>
+              <label class="field compact-field">
+                <span>内存</span>
+                <input id="solveMemory" type="text" value="20m" placeholder="20m">
+              </label>
+              <label class="field compact-field">
+                <span>超时（秒）</span>
+                <input id="solveTimeout" type="number" min="1" max="7200" step="1" value="600">
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="parameter-group">
+          <summary><span>直接求解确认</span><small>高风险操作</small></summary>
+          <div class="parameter-group-body">
+            <label class="field solve-confirmation-field">
+              <span>再次输入当前项目名称</span>
+              <input id="solveProjectConfirmation" type="text" autocomplete="off" placeholder="必须与当前项目名称完全一致">
+            </label>
+            <button id="runLsdyna" class="wide-button solve-button" type="button">直接启动 LS-DYNA</button>
+          </div>
+        </details>
+        <div id="solverRunStatus" class="summary">当前项目尚未启动直接求解。</div>
+        <details class="parameter-group"><summary>验收状态</summary>
+        <div class="qualification-grid" aria-label="Phase 15 验收状态">
+          <span id="phase15StaticBadge" class="qualification-badge" data-state="pending"><strong>静态</strong><small>待检查</small></span>
+          <span id="phase15SolverBadge" class="qualification-badge" data-state="pending"><strong>求解</strong><small>待运行</small></span>
+          <span id="phase15TransferBadge" class="qualification-badge" data-state="pending"><strong>传播</strong><small>待验证</small></span>
+          <span id="phase15CalibrationBadge" class="qualification-badge" data-state="warning"><strong>标定</strong><small>未标定</small></span>
+        </div>
+        </details>
+        <div class="primary-action-stack">
+          <button id="sendToLsrun" class="wide-button solve-button" type="button">送入 LS-Run</button>
+          <button id="recoverLsrun" class="wide-button secondary-button" type="button" disabled>刷新 LS-Run 结果</button>
+          <button id="openResultLspp" class="wide-button secondary-button" type="button" disabled>在 LS-PrePost 中查看</button>
+          <button id="readSolveStatus" class="wide-button secondary-button" type="button">读取最近求解记录</button>
+        </div>
+      </section>
+
+      <div id="inspectorProjects" class="inspector-panel hidden">
+        <section>
+          <div class="section-heading-row"><h2>最近项目</h2><button id="refresh" class="secondary-button" type="button">刷新项目</button></div>
+          <div id="projects" class="projects" aria-live="polite">暂无项目。</div>
+        </section>
+        <section class="subsection">
+          <h2>爆炸结果对比</h2>
+          <p class="panel-note">只比较两个项目最近一次有记录的求解结果，缺失指标会明确标为不可用。</p>
+          <div class="compare-grid">
+            <label class="field compact-field">
+              <span>方案 A</span>
+              <select id="compareProjectA"></select>
+            </label>
+            <label class="field compact-field">
+              <span>方案 B</span>
+              <select id="compareProjectB"></select>
+            </label>
+          </div>
+          <button id="compareBlastRuns" class="wide-button secondary-button" type="button">比较最近结果</button>
+        </section>
+      </div>
+
+      <section id="inspectorResults" class="inspector-panel result-section hidden">
+        <h2>结果与日志</h2>
+        <div id="result" class="result" aria-live="polite">等待操作。</div>
+      </section>
+    </aside>
+  </main>
+  </div>
+
+  <main id="refinedBlastWorkbenchRoot" class="hidden" aria-label="精细化建筑爆炸工作台"></main>
+
+
+
+
+
+</body></html>

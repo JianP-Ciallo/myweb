@@ -1,0 +1,15 @@
+.tnt-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tnt-legacy{font-size:11px;color:#367a83;white-space:nowrap}.tnt-results{position:absolute;inset:0;z-index:2;background:#f8fbfa;padding:22px;overflow:auto}.tnt-result-actions{display:flex;gap:8px;flex-wrap:wrap}.tnt-result-actions select{min-width:160px;max-width:100%;flex:1}.tnt-result-actions button{font-size:11px}#resultChart{width:100%;min-height:240px;max-height:400px;display:block}#resultMonitor{max-width:100%;margin:10px 0}#resultCsv{display:inline-block;margin-top:12px;color:#176d78}.editor details{font-size:12px;margin:15px 0;line-height:1.7}.editor summary{cursor:pointer;color:#38737c}.tnt-empty{text-align:center;color:#7b989d}.tabs button{white-space:nowrap}.context{gap:12px}.tnt-export-estimate{background:#edf5f6;padding:12px;border-radius:6px}@media(max-width:760px){.context .tnt-legacy{margin-left:auto}.tnt-results{padding:12px}.toolbar{flex-wrap:wrap}.tnt-result-actions{display:grid}#resultChart{min-height:200px}.tabs button{padding:12px 7px}}
+.viewport #sceneView{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;touch-action:none;user-select:none}
+#sceneView canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#sceneView canvas:active{cursor:grabbing}
+#sceneView .tnt-marker{position:absolute;transform:translate(-50%,-50%);padding:3px 6px;border-radius:5px;background:#fff4e7e8;border:1px solid #c87930;color:#92501b;font-size:11px;pointer-events:none;white-space:nowrap}
+#sceneView .tnt-marker::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;background:#e88e38}
+.viewport .legend,.viewport .viewer-note{pointer-events:none}
+.viewport .viewer-note{max-width:95%;line-height:1.6}
+#placementStatus.error{color:#ac4b3b}
+#sceneView [data-tnt-cylinder]{pointer-events:auto;cursor:grab;touch-action:none}
+#sceneView[data-tnt-dragging] canvas,#sceneView[data-tnt-dragging] [data-tnt-cylinder]{cursor:grabbing}
+#sceneView [data-tnt-cylinder][data-drag-blocked=true]{border-color:#b64e36;background:#fff0e9;color:#a53e2e}
+#sceneView .tnt-height-handle{position:absolute;transform:translate(-50%,-50%);padding:4px 8px;border:1px solid #367d87;border-radius:5px;background:#eefaffed;color:#226b76;font-size:11px;white-space:nowrap;pointer-events:auto;touch-action:none;cursor:ns-resize}
+#sceneView[data-tnt-drag-mode=height] canvas{cursor:ns-resize}
+#sceneView [data-tnt-height][data-drag-blocked=true]{border-color:#b64e36;background:#fff0e9;color:#a53e2e}

@@ -1,0 +1,64 @@
+/* Shared transient controls and legacy workspace layout. */
+.workbench-menu { position: relative; }
+.workbench-menu > summary,
+.refined-blast-external-menu > summary {
+  align-items: center; background: #fff; border: 1px solid #d4dee3;
+  border-radius: 6px; color: #465a66; cursor: pointer; display: flex;
+  font-size: 13px; gap: 9px; justify-content: center; list-style: none;
+  min-height: 34px; padding: 7px 11px; white-space: nowrap;
+}
+.workbench-menu > summary::after, .refined-blast-external-menu > summary::after { content: "⌄"; color: #7d8c94; }
+.workbench-menu > summary::-webkit-details-marker { display: none; }
+.workbench-menu[open] > summary { background: #edf4f5; border-color: #b8cdd3; }
+.workbench-menu-content {
+  background: #fff; border: 1px solid #dfe5e8; border-radius: 8px;
+  box-shadow: 0 10px 30px #2137411a; color: #273640; display: grid; gap: 8px;
+  max-width: calc(100vw - 32px); min-width: 170px; padding: 12px;
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 30;
+}
+.refined-blast-onboarding .workbench-menu-content { padding: 18px; }
+.legacy-model-menu .workbench-menu-content { bottom: calc(100% + 8px); top: auto; }
+#legacyDisplayMenu .workbench-menu-content { grid-template-columns: 1fr 1fr; width: 250px; }
+#legacyDisplayMenu .viewport-select { grid-column: 1 / -1; margin-bottom: 6px; }
+:is(#legacyWorkbenchRoot, .refined-blast-shell) :is(button, input, select, summary):focus-visible { outline: 2px solid #16758a; outline-offset: 3px; }
+:is(#legacyWorkbenchRoot, .refined-blast-shell) button { font-size: 13px; }
+:is(#legacyWorkbenchRoot, .refined-blast-shell) button:disabled { background: #edf0f2; border-color: #e1e7ea; color: #84929a; cursor: not-allowed; }
+:is(#legacyWorkbenchRoot, .refined-blast-shell) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) { border-radius: 6px; border-color: #d1dce2; font-size: 13px; min-height: 36px; }
+#legacyWorkbenchRoot .workbench-layout.is-inspector-open { grid-template-columns: 300px minmax(0, 1fr) 320px; }
+#legacyWorkbenchRoot .resource-buttons { gap: 6px; }
+#legacyWorkbenchRoot .resource-button { min-height: 36px; padding: 8px 5px; }
+#legacyWorkbenchRoot .resource-mark, #legacyWorkbenchRoot .resource-strip > h2 { display: none; }
+#legacyWorkbenchRoot .section-kicker { display: none; }
+#legacyWorkbenchRoot .tool-section h2 { font-weight: 600; margin-bottom: 16px; }
+#legacyWorkbenchRoot .field { margin-bottom: 12px; }
+#legacyWorkbenchRoot .parameter-group { border-radius: 6px; }
+#legacyWorkbenchRoot .parameter-group > summary { background: #f7f9fa; padding: 11px 10px; }
+#legacyWorkbenchRoot .summary:not(.warning):not(.pending) { background: #f4f7f8; border-left: 0; color: #526975; font-size: 12px; line-height: 1.6; }
+#legacyWorkbenchRoot .context-status { background: #fff; border-bottom: 1px solid #e4e9ec; padding: 10px 18px; }
+#legacyWorkbenchRoot .context-chip { background: transparent; border: 0; }
+#legacyWorkbenchRoot .inspector-heading { align-items: center; display: flex; justify-content: space-between; padding: 0 0 14px; }
+#legacyWorkbenchRoot .inspector-tabs { margin-top: 12px; }
+#legacyWorkbenchRoot .panel-header-copy > h2 { display: none; }
+#legacyWorkbenchRoot .panel-header-copy > p { color: #71808a; font-size: 12px; line-height: 1.6; }
+#toggleTaskPanel[data-has-update="true"]::after { background: #16758a; border-radius: 50%; content: ""; display: inline-block; height: 6px; margin-left: 7px; width: 6px; }
+@media (max-width: 1180px) {
+  #legacyWorkbenchRoot .workbench-layout,
+  #legacyWorkbenchRoot .workbench-layout.is-inspector-open { grid-template-columns: 300px minmax(0, 1fr); gap: 12px; padding: 12px; }
+  #rightInspector { bottom: 12px; box-shadow: 0 10px 40px #21374130; max-width: calc(100vw - 24px); position: fixed; right: 12px; top: 76px; width: 340px; z-index: 35; }
+}
+@media (max-width: 760px) {
+  #legacyWorkbenchRoot > .topbar { align-items: flex-start; flex-direction: column; height: auto; padding: 16px; }
+  #legacyWorkbenchRoot .workbench-layout,
+  #legacyWorkbenchRoot .workbench-layout.is-inspector-open { grid-template-columns: minmax(0, 1fr); height: auto; }
+  #leftWorkbench { max-height: 600px; }
+  #centerViewport { height: 520px; }
+  #legacyWorkbenchRoot .viewport-toolbar { align-items: flex-start; flex-direction: column; padding: 12px; }
+  #legacyWorkbenchRoot .viewport-heading { align-items: center; flex-direction: row; }
+  #legacyWorkbenchRoot .viewport-buttons { flex-wrap: wrap; }
+  #legacyWorkbenchRoot .model-viewport { min-height: 0; }
+  #legacyWorkbenchRoot .actions { grid-template-columns: 1fr 1fr; }
+  .refined-blast-onboarding .workbench-menu-content { left: 0; right: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workbench-menu *, .refined-blast-shell * { scroll-behavior: auto; transition: none; }
+}

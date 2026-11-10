@@ -5,24 +5,6 @@ import boxes from './residence-preview.json' with { type: 'json' };
 const byId = id => document.getElementById(id);
 const on = (id, event, handler) => byId(id).addEventListener(event, handler);
 const viewport = byId('viewport');
-const dialog = byId('moduleDialog');
-const modules = {
-  modeling: '建模工作台用于管理工程模型和网格。答辩版可通过首页浏览三层住宅的可视几何。',
-  refined: '这里介绍原工作台的精细化分析模块。答辩版提供三维浏览与镜头回放。',
-  pressure: '固定建筑压力分析包含建筑预览、工程设置与结果查看。答辩版提供建筑外观与屋面切换。',
-  assessment: '评估模块用于浏览工程结果与图表。答辩版可切换损伤图例，图例颜色仅用于说明界面。',
-  catalog: '当前开放的静态展项为三层阳台住宅。使用左侧视角菜单切换全景、正面阳台和屋面总览。',
-};
-
-for (const button of document.querySelectorAll('[data-module]')) {
-  button.addEventListener('click', () => {
-    byId('moduleTitle').textContent = button.textContent.trim();
-    byId('moduleDescription').textContent = modules[button.dataset.module];
-    dialog.showModal();
-  });
-}
-on('closeDialog', 'click', () => dialog.close());
-
 function saveLink(url, name) {
   const link = document.createElement('a');
   link.href = url;

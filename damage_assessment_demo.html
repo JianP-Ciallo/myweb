@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>合成场景 · 交互损伤评估</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./damage_assessment_demo.css">
+  <link rel="stylesheet" href="./workbench_theme.css">
+
+
+
+<link rel="icon" href="data:,"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="stylesheet" href="./defense-pages.css"><script defer src="./workbench_chrome.js"></script><script defer src="./defense-pages.js"></script></head>
+<body class="workbench-theme defense-secondary has-workbench-navigation" data-workbench="assessment" data-defense-page="assessment"><header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./">CPU 响应</a><a href="./damage_assessment_demo.html" aria-current="page">评估演示</a></nav><div class="workbench-global-context"><strong>lsprepost-mcp · 开题答辩</strong><span role="status">静态展示 · 示例数据</span></div></header>
+<main class="demo-shell" data-demo-state="loading">
+  <header class="demo-heading"><div><span class="eyebrow">SYNTHETIC DEMO / 功能演示</span><h1>三层建筑与地面 · 交互评估</h1></div><span class="demo-badge">独立演示 · 不改动真实项目</span></header>
+  <p class="demo-warning">答辩展示使用固定的界面示例与示意图例。样例用于说明评估界面。</p>
+  <div class="demo-layout">
+    <section class="controls-panel" aria-label="演示参数">
+      <div class="section-heading"><span class="eyebrow">01 / INPUT</span><h2>示例选择</h2><p>切换样例，查看界面怎样呈现不同的数据状态。</p></div>
+      <fieldset data-demo-inputs><label>示例数据状态<select data-demo-mode><option value="complete">完整示例</option><option value="partial">部分字段缺失</option><option value="blocked">关键字段缺失</option></select></label><button type="button" data-demo-evaluate>查看示例结果</button></fieldset>
+      <p class="hint">三个示例分别演示完整、部分缺失和关键字段缺失的状态。</p>
+    </section>
+    <section class="model-panel" aria-label="演示模型">
+      <header class="model-toolbar"><label><input type="checkbox" data-demo-hide-walls> 隐藏外墙</label><button type="button" class="secondary" data-demo-fit disabled>适配视图</button></header>
+      <div class="model-stage"><iframe class="defense-model-frame" title="三层阳台住宅三维示例" src="./model-preview.html" allowfullscreen></iframe></div>
+      <div class="field-legend" data-demo-field-legend aria-label="连续演示影响值"><strong>演示影响分布 · 连续渐变</strong><div class="field-ramp"></div><div class="field-scale"><span>0 · 弱</span><span>固定标尺，无量纲</span><span>1 · 强</span></div></div>
+      <p class="legend-note">演示云图，非真实求解结果；颜色由表面局部合成值驱动，不是压力或损伤等级。未评估、过期或不可评估显示灰色。右侧保留构件整体等级，等级 0 不代表安全。</p>
+      <section class="detail-card"><h3>构件详情</h3><div data-demo-detail>选择模型构件或右侧明细行，查看对应结果。</div></section>
+    </section>
+    <aside class="results-panel" data-demo-results aria-label="演示评估结果">
+      <div class="section-heading"><span class="eyebrow">02 / ASSESSMENT</span><h2>评估结果</h2><p data-demo-status role="status" aria-live="polite">选择示例数据状态</p></div>
+      <section class="overall-card"><span>整体门禁</span><strong data-demo-overall>未评估</strong></section>
+      <div class="ratings"><section><h3>建筑</h3><strong data-demo-building>未评估</strong></section><section><h3>地面</h3><strong data-demo-ground>未评估</strong></section></div>
+      <section class="metrics-card"><h3>地面指标</h3><div data-demo-ground-metrics>评估后显示实际引擎输出。</div><p class="hint">四分区用于定位；表面渐变为局部演示影响值，右侧地面等级仍为整体定级，两者含义不同。</p></section>
+      <details open><summary>构件与区域明细 <span data-demo-count></span></summary><div class="component-list" data-demo-components></div></details>
+      <details><summary>数据限制与复核事项</summary><div data-demo-limitations>尚未评估。</div></details>
+      <details><summary>规则与证据</summary><div data-demo-rules>评估后可查看规则命中和完整证据包。</div></details>
+      <section class="report-actions"><h3>报告与导出</h3><div class="export-grid">
+        <a data-demo-report href="./demos/residential-damage-report.html">查看演示报告 ↗</a>
+        <a data-demo-download aria-disabled="true" download="合成演示-损伤报告.html">下载 HTML 报告</a>
+        <a data-demo-building-csv aria-disabled="true" download="合成演示-建筑明细.csv">建筑明细 CSV</a>
+        <a data-demo-ground-csv aria-disabled="true" download="合成演示-地面明细.csv">地面明细 CSV</a>
+        <a data-demo-evidence aria-disabled="true" download="合成演示-完整证据包.json">完整证据包 JSON</a>
+      </div><p class="hint">HTML/CSV 为带标记的展示副本；证据包保留八项原始工件及其 SHA256，另附 display_field 局部采样值（非原始评估工件）。</p><p class="identity" data-demo-identity>尚未生成演示评估。</p></section>
+    </aside>
+  </div>
+</main>
+</body></html>

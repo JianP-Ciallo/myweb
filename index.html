@@ -14,25 +14,12 @@
     {"imports":{"three":"./vendor/three/three.module.min.js"}}
   </script>
   <script type="module" src="./preview.js"></script>
-</head>
+<link rel="stylesheet" href="./defense-pages.css"><script defer src="./defense-pages.js"></script></head>
 <body class="workbench-theme cpu-blast-workbench has-workbench-navigation" data-workbench="blast" data-cpu-workbench>
-  <header class="workbench-global-header">
-    <a class="workbench-global-brand" href="./">lsprepost-mcp</a>
-    <nav aria-label="工作台">
-      <button type="button" data-module="modeling">建模工作台</button>
-      <button type="button" data-module="refined">精细化爆炸</button>
-      <button type="button" data-module="pressure" class="selected">固定建筑压力分析</button>
-      <a href="./" aria-current="page">CPU 响应</a>
-      <button type="button" data-module="assessment">评估演示</button>
-    </nav>
-    <div class="workbench-global-context">
-      <strong>三层阳台住宅 · CPU 响应</strong>
-      <span role="status">开题答辩 · 静态展示</span>
-    </div>
-  </header>
+  <header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html">固定建筑压力分析</a><a href="./" aria-current="page">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>三层阳台住宅 · CPU 响应</strong><button id="openWelcome" type="button">展示说明</button></div></header>
   <div class="cpu-page-heading">
     <div><span class="eyebrow">建筑场景 / CPU</span><h1>爆炸与建筑响应</h1><p>浏览三层住宅模型、切换视图，预览建筑响应工作台。</p></div>
-    <div class="cpu-heading-actions"><span class="cpu-badge">答辩展示 · 三维预览</span><button type="button" data-module="catalog">查看场景目录 ↗</button></div>
+    <div class="cpu-heading-actions"><span class="cpu-badge">答辩展示 · 三维预览</span><a href="./blast_buildings.html">查看场景目录 ↗</a></div>
   </div>
   <main class="cpu-layout">
     <aside class="cpu-settings" aria-label="场景与视图">
@@ -55,7 +42,7 @@
       <section>
         <h2><b>02</b> 响应界面</h2>
         <p class="hint">展示模型浏览、时间轴和损伤图例。工程参数与计算结果由原工作台提供。</p>
-        <button type="button" data-module="assessment" class="secondary">查看评估演示说明</button>
+        <a class="defense-link" href="./damage_assessment_demo.html">进入评估演示 →</a>
       </section>
     </aside>
     <article class="cpu-stage" aria-label="三维视图">
@@ -89,10 +76,6 @@
       </div>
     </article>
   </main>
-  <dialog id="moduleDialog" aria-labelledby="moduleTitle">
-    <h2 id="moduleTitle"></h2>
-    <p id="moduleDescription"></p>
-    <div class="dialog-actions"><button id="closeDialog" type="button">返回工作台</button></div>
-  </dialog>
+  <dialog id="welcomeDialog" aria-labelledby="welcomeTitle"><p class="eyebrow">LSPREPOST-MCP / 开题答辩</p><h2 id="welcomeTitle">建筑建模与响应分析 · 展示说明</h2><p>本站用于开题答辩，展示从建模、三维预览、工况配置到结果评估的界面流程。</p><ul><li>关闭后进入三层阳台住宅。可拖动旋转、滚轮缩放、切换屋面和播放镜头。</li><li>顶部导航可进入建模、精细化工作台、固定建筑压力分析、CPU 响应及评估演示。</li><li>站点使用静态样例。实际工程计算、求解和任务提交需在本地工作台完成。</li></ul><div class="dialog-actions"><button id="enterWorkbench" type="button" autofocus>关闭说明，进入工作台</button></div></dialog>
 </body>
 </html>

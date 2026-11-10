@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TNT爆炸工况 · 固定建筑</title><link rel="stylesheet" href="./structural_pressure.css"><link rel="stylesheet" href="./workbench_theme.css"><link rel="stylesheet" href="./fixed_building_tnt.css">
+<link rel="icon" href="data:,"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="stylesheet" href="./defense-pages.css"><script defer src="./workbench_chrome.js"></script><script defer src="./defense-pages.js"></script></head>
+<body class="workbench-theme defense-secondary has-workbench-navigation" data-workbench="pressure" data-defense-page="tnt"><header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html" aria-current="page">固定建筑压力分析</a><a href="./">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>lsprepost-mcp · 开题答辩</strong><span role="status">静态展示 · 示例数据</span></div><div class="workbench-subnavigation"><nav aria-label="固定建筑压力分析子页"><a href="./fixed_building_preview.html">建筑预览</a><a href="./structural_pressure.html">压力工况</a><a href="./fixed_building_tnt.html" aria-current="page">TNT 工况界面</a><a href="./fixed_building_response.html">CPU 开发验证</a></nav></div></header>
+<header><div class="brand"><span class="mark">筑</span><div><strong>结构工况工作台</strong><small>FIXED BUILDING / PRESSURE STUDY</small></div></div>
+<nav aria-label="工作区"><a href="./">主工作台</a><a href="./fixed_building_preview.html">建筑预览</a><a class="active" href="./structural_pressure.html">压力工况</a><a id="openCpuResponse" href="./fixed_building_response.html">CPU 响应</a><button id="openSaved">我的工况</button></nav><span class="template-tag" id="templateName">正在读取固定模板…</span></header>
+<div class="context"><label>工况名称 <input id="sceneName" maxlength="120" value="TNT参考工况"></label><span id="saveState">未保存</span><button id="newScene">＋ 新建工况</button><a class="tnt-legacy" href="./structural_pressure.html">已有压力载荷工况</a></div>
+<main>
+<aside class="panel editor" id="tntEditor"><div class="panel-title"><h2>工况设置</h2><span>TNT · 空气 · 流固耦合</span></div>
+<div class="tabs" role="tablist" aria-label="设置分类"><button role="tab" aria-selected="true" data-tab="load" class="active">TNT设置</button><button role="tab" aria-selected="false" data-tab="surface">空气与耦合</button><button role="tab" aria-selected="false" data-tab="monitors">监测</button><button role="tab" aria-selected="false" data-tab="output">输出</button></div>
+<div class="editor-body">
+<section data-pane="load" role="tabpanel"><h3>工况配置</h3><p class="defense-note">静态答辩展示。页面中的工程操作由原工作台提供，这里可浏览界面和示例。</p></section>
+<section data-pane="surface" role="tabpanel" hidden><h3>域与耦合</h3><p class="defense-note">静态答辩展示。页面中的工程操作由原工作台提供，这里可浏览界面和示例。</p></section>
+<section data-pane="monitors" role="tabpanel" hidden><h3>监测配置</h3><p class="defense-note">静态答辩展示。页面中的工程操作由原工作台提供，这里可浏览界面和示例。</p></section>
+<section data-pane="output" role="tabpanel" hidden><h3>输出设置</h3><p class="defense-note">静态答辩展示。页面中的工程操作由原工作台提供，这里可浏览界面和示例。</p></section>
+</div></aside>
+<section class="panel workspace"><div class="viewer-head"><div><span class="eyebrow">TNT / AIR / FLUID–STRUCTURE INTERACTION</span><h1>TNT爆炸工况</h1><p>固定建筑 · TNT与空气 · 建筑和地面流固耦合</p></div><span id="previewState" class="chip">待校验</span></div>
+<div class="toolbar"><div class="segments"><button id="view3d" class="active">三维外观</button><button id="viewPlan">俯视平面</button><button id="viewResults">结果曲线</button></div><div><button id="zoomOut" aria-label="缩小">−</button><button id="fitView">适应视图</button><button id="zoomIn" aria-label="放大">＋</button></div></div>
+<div class="viewport"><div id="tntResults" class="tnt-results" hidden><h3>压力—时间曲线</h3><p class="hint">显示本工况实际求解结果；不作为输入载荷。</p><div class="tnt-result-actions"><select id="resultExport" aria-label="选择导出版本"></select><button id="refreshResults">刷新记录</button><button id="attachResults">选择结果文件夹</button></div><p id="resultStatus" class="hint">尚无该工况求解结果。</p><select id="resultMonitor" aria-label="选择压力监测点" hidden></select><svg id="resultChart" viewBox="0 0 800 360" aria-label="原生压力时程曲线"></svg><div id="resultMetrics" class="readout"></div><a id="resultCsv" hidden>下载结果CSV</a></div>
+<div id="sceneView" aria-label="可旋转的固定建筑预览"><iframe class="defense-model-frame" title="三层阳台住宅三维示例" src="./model-preview.html" allowfullscreen></iframe></div><span class="viewer-note">拖动旋转 · 滚轮缩放</span><div class="legend"><span><i class="teal"></i>建筑</span><span><i class="orange"></i>TNT</span><span><i class="blue"></i>空气参考范围</span></div></div>
+<div class="scene-summary"><span id="componentCount">— 个构件</span><span id="groundSize">混凝土地面 —</span><span id="surfaceSummary">尚未进行网格预估</span></div>
+<div id="jobResult" class="job-result" aria-live="polite" hidden></div></section>
+<aside class="panel inspector"><h2>场景分类</h2><details open><summary>建筑主体 <span id="treeCount"></span></summary><label class="checkbox"><input type="checkbox" data-layer="building" checked>主体、门窗与附属</label><div id="buildingGroups"></div></details>
+<details open><summary>混凝土地面</summary><label class="checkbox"><input type="checkbox" data-layer="ground" checked>显示固定地面</label><p id="groundInfo" class="hint"></p></details>
+<details><summary>空气域</summary><label class="checkbox"><input type="checkbox" data-layer="air" checked>显示空气域</label><p class="hint">显示当前工况的空气范围；实际网格在确认生成后写出。</p></details>
+<details open><summary>TNT爆源</summary><label class="checkbox"><input type="checkbox" data-layer="tnt" checked>显示TNT圆柱</label><p id="tntTreeSummary" class="hint"></p></details><details open><summary>监测点</summary><label class="checkbox"><input type="checkbox" data-layer="monitors" checked>显示请求位置</label></details>
+<h2 class="separated">校验结果</h2><div id="checks" class="check-list" aria-live="polite">设置爆源后更新预览，检查空气网格预算。</div>
+<details><summary>分析假设与验证范围</summary><p>保留已登记模板的材料、结构连接、地面约束和流固耦合设置。小模型验证不等同于整栋工程验收。</p><p>分别记录参数检查、网格预估、K包生成和结果来源，不代表材料标定、整体求解或工程安全验收通过。</p></details></aside>
+</main>
+<footer><div><strong id="status" role="status">正在载入…</strong><small>配置保存、预览校验与 K 导出独立记录</small></div><div class="footer-actions"><button id="saveScene" disabled>保存工况</button><button id="previewScene" disabled>更新预览</button><button id="exportScene" class="primary" disabled>导出 K 包</button></div></footer>
+<dialog id="savedDialog"><div class="dialog-head"><h2>我的工况</h2><button data-close="savedDialog" aria-label="关闭工况列表">×</button></div><div id="savedList">正在读取…</div></dialog>
+<dialog id="exportDialog"><div class="dialog-head"><h2>生成TNT流固耦合K包</h2><button data-close="exportDialog" aria-label="关闭导出确认">×</button></div><div id="exportSummary"></div><p class="hint">包含保留结构、地面、TNT材料、空气网格、起爆、流固耦合及监测输出。生成与求解独立；本操作不启动求解器。</p><div class="dialog-actions"><button data-close="exportDialog">返回修改</button><label class="checkbox"><input id="scopeAccepted" type="checkbox">我已核对本次生成范围、预计耗时和资源规模，确认生成K包。</label><button id="confirmExport" class="primary">确认导出</button></div></dialog>
+
+
+</body></html>

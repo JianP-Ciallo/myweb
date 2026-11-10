@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CPU 响应 · 固定建筑压力分析</title><link rel="stylesheet" href="./fixed_building_response.css">
+<link rel="stylesheet" href="./workbench_theme.css">
+
+<link rel="icon" href="data:,"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="stylesheet" href="./defense-pages.css"><script defer src="./workbench_chrome.js"></script><script defer src="./defense-pages.js"></script></head>
+<body class="workbench-theme defense-secondary has-workbench-navigation" data-workbench="response" data-defense-page="response"><header class="workbench-global-header"><a class="workbench-global-brand" href="./">lsprepost-mcp</a><nav aria-label="工作台"><a href="./modeling.html">建模工作台</a><a href="./refined-blast.html">精细化爆炸</a><a href="./fixed_building_preview.html" aria-current="page">固定建筑压力分析</a><a href="./">CPU 响应</a><a href="./damage_assessment_demo.html">评估演示</a></nav><div class="workbench-global-context"><strong>lsprepost-mcp · 开题答辩</strong><span role="status">静态展示 · 示例数据</span></div><div class="workbench-subnavigation"><nav aria-label="固定建筑压力分析子页"><a href="./fixed_building_preview.html">建筑预览</a><a href="./structural_pressure.html">压力工况</a><a href="./fixed_building_tnt.html">TNT 工况界面</a><a href="./fixed_building_response.html" aria-current="page">CPU 开发验证</a></nav></div></header>
+<header><a class="brand" href="./"><span class="mark">筑</span><span><strong>固定建筑压力分析</strong><small>CPU STRUCTURAL RESPONSE</small></span></a>
+<nav aria-label="工作区"><a href="./fixed_building_preview.html">建筑预览</a><a id="backPressure" href="./structural_pressure.html">工况与 K 文件</a><a href="./fixed_building_response.html" aria-current="page">CPU 响应</a></nav><span class="badge" id="runtimeState">检查运行环境…</span></header>
+<main>
+<aside class="panel settings"><span class="eyebrow">01 / CPU RESPONSE</span><h1>建筑与构件响应</h1>
+<section class="building-trial-card" aria-label="三层建筑进度"><strong>我的三层建筑</strong><p id="buildingTrialState" role="status">正在读取已有首试记录…</p><p class="hint" id="buildingTrialBrief">柱板承重，填充墙传递压力并计入质量。</p><button id="openBuildingTrial" type="button" disabled>查看已保存的整栋首试</button><a href="./fixed_building_preview.html" data-workbench-destination="building">查看建筑模型</a><small>整栋网格与步长收敛待验证，新计算暂未开放。</small></section>
+<label>构件验证算例<select id="benchmark"><option value="rc-column-v1">单柱 · 纤维截面</option><option value="rc-panel-v1">单板 · 分层配筋壳</option></select></label>
+<div class="case-card" id="caseDescription">3.0 m 悬臂柱 · 300 × 300 mm<br>4Φ16 纵筋 · 40 mm 保护层</div>
+<label>计算网格<select id="meshN"><option value="4">快速预览 · 4 段 / 4 × 4</option><option value="8">细化 · 8 段 / 8 × 8</option><option value="16">对照 · 16 段 / 16 × 16</option><option value="32" selected>精细 · 32 段 / 32 × 32</option></select></label>
+<div class="two"><label>积分步长 / ms<select id="dtMs"><option value="0.1">0.10</option><option value="0.05">0.05</option></select></label><label>压力倍率<input id="pressureScale" type="number" min="0" max="10" step="0.1" value="1"></label></div>
+<div class="load-card"><span>给定压力时程</span><svg id="loadPreview" viewBox="0 0 220 70" role="img" aria-label="压力时程预览"></svg><small>1 ms 达峰 · 10 ms 卸载<br>基准峰值 10 kPa · 分析时长 150 ms</small></div>
+<p class="hint">这是数值验证输入，不代表通用真实爆炸工况。</p>
+<button class="primary" id="startRun" disabled>开始 CPU 计算</button><button id="cancelRun" hidden>停止本次计算</button><progress id="runProgress" hidden aria-label="CPU 计算进行中"></progress>
+<p class="hint" id="accuracyNote">下方按钮仅计算所选单柱或单板。它们的收敛验证不代表整栋建筑已验收。</p>
+<details><summary>材料与计算范围</summary><p>弹性参考：混凝土 E = 30 GPa，钢筋 E = 200 GPa，完全粘结，零阻尼，小位移。</p><p>钢筋应力来自梁柱截面纤维或板内配筋层。当前不预测开裂、屈服、滑移、断裂或倒塌。</p></details>
+<label class="history-label">历史计算<select id="history" data-workbench-ephemeral><option value="">选择已保存记录</option></select></label>
+<label class="history-trash-toggle"><input id="showDeleted" type="checkbox"> 已删除记录</label>
+<div class="history-actions"><button id="deleteHistory" type="button" disabled>删除记录</button><button id="restoreHistory" type="button" hidden disabled>恢复记录</button></div>
+<p class="hint" id="historyHint">选择一条记录后可删除；原计算文件保留，可恢复。</p>
+</aside>
+<section class="panel workspace"><div class="viewer-heading"><div><span class="eyebrow">02 / RESPONSE VIEW</span><h2 id="viewTitle">单柱动态响应</h2><p id="resultIdentity">尚未计算 · 不显示示例结果</p></div><span class="badge" id="runState">待计算</span></div>
+<div class="toolbar"><label>着色<select id="field"><option value="displacement">位移 / mm</option><option value="steel">钢筋轴向应力 / MPa</option><option value="pressure">施加压力 / kPa</option></select></label><label id="steelFilterLabel" hidden>位置<select id="steelFilter"></select></label><label>变形倍率<input id="scale" type="number" min="1" max="5000" value="300" step="50"></label><button id="fitView">适应视图</button><button id="savePng" disabled>保存图片</button></div>
+<div class="viewport-wrap"><div id="responseViewport"><iframe class="defense-model-frame" title="三层阳台住宅三维示例" src="./model-preview.html" allowfullscreen></iframe></div><div id="emptyState" hidden></div><div id="legend" hidden><span id="legendLabel">位移 / mm</span><div id="colorbar"></div><div class="legend-values"><span id="legendMin">0</span><span id="legendMax">—</span></div></div><span class="viewer-note">拖动旋转 · 滚轮缩放 · 灰线为原始形状</span></div>
+<div class="timeline"><button id="play" disabled aria-label="播放响应">▶</button><button id="previousFrame" disabled aria-label="上一帧">‹</button><input id="timeline" type="range" min="0" max="0" value="0" aria-label="响应时间轴" disabled><button id="nextFrame" disabled aria-label="下一帧">›</button><output id="timeValue">— ms</output><select id="playSpeed" aria-label="回放速度"><option value="0.01">0.01× 慢放</option><option value="0.05">0.05×</option><option value="0.1">0.1×</option></select></div>
+<div class="chart-heading"><h3>测点响应</h3><select id="quantity"><option value="displacement">位移 / mm</option><option value="velocity">速度 / m·s⁻¹</option><option value="acceleration">加速度 / m·s⁻²</option><option value="steel">钢筋拉压包络 / MPa</option><option value="energy">机械能 / J</option></select></div><svg id="responseChart" viewBox="0 0 1000 200" role="img" aria-label="计算响应曲线"></svg>
+<p class="field-note" id="fieldNote">压力显示输入荷载；位移与钢筋应力显示计算结果。</p>
+</section>
+<aside class="panel inspector"><span class="eyebrow">03 / MEASURED RESULTS</span><h2>本次结果</h2><div class="metric"><span>最大位移</span><strong id="peakDisplacement">—<small> mm</small></strong></div><div class="metric"><span>钢筋最大绝对应力</span><strong id="peakSteel">—<small> MPa</small></strong></div>
+<div class="divider"></div><h3>实际耗时</h3><dl class="timings"><dt>工作进程总耗时</dt><dd id="wallTime">—</dd><dt>建模</dt><dd id="buildTime">—</dd><dt>内核推进</dt><dd id="solveTime">—</dd><dt>结果提取</dt><dd id="extractTime">—</dd><dt>结果加载</dt><dd id="loadTime">—</dd><dt>首帧显示</dt><dd id="renderTime">—</dd><dt>进程内存采样峰值</dt><dd id="memory">—</dd></dl>
+<p class="hint" id="modelSize">计算规模随结果记录。</p><details><summary>原始应力采样</summary><pre id="sampleDetails">计算后显示元素、积分点和钢筋位置。</pre></details>
+<div class="downloads"><a id="downloadCsv" hidden>下载曲线 CSV</a><a id="downloadJson" hidden>下载完整结果 JSON</a></div><p class="hint">CPU 配置和结果独立保存，原 K 文件保持原来的导出流程。</p>
+</aside>
+</main>
+<dialog id="buildingTrialDialog" aria-labelledby="buildingTrialTitle"><div class="building-trial-heading"><h2 id="buildingTrialTitle">三层建筑 · 已保存的整栋首试</h2><button id="closeBuildingTrial" type="button">关闭</button></div><p class="building-trial-warning">这是已有的粗网格弹性参考结果。整栋空间与时间收敛尚未验收，当前查看不会启动计算。</p><p id="buildingTrialFacts"></p><p>给首层单块墙施加指定压力；未求解空气冲击波、混凝土损伤或倒塌。</p><div class="building-trial-downloads"><a id="buildingTrialCsv" hidden download>下载已有曲线 CSV</a><a id="buildingTrialJson" hidden download>下载原始结果 JSON</a><a id="buildingTrialReport" hidden download>下载首试报告</a></div><figure id="buildingTrialDeformationFigure" hidden><img id="buildingTrialDeformation" alt="已保存的三层建筑变形与钢筋应力图"><figcaption>首试变形及钢筋应力；变形放大 3000 倍，数值尚未经整栋收敛验收。</figcaption></figure><figure id="buildingTrialCurvesFigure" hidden><img id="buildingTrialCurves" alt="已保存的三层建筑完整时窗响应曲线"><figcaption>原首试的 0–150 ms 响应曲线。</figcaption></figure><p>剩余步骤：整栋网格收敛 → 时间步长收敛 → 验收后接入整栋计算与三维回放。</p></dialog>
+<footer><span id="status" role="status">正在读取参考算例…</span><span>弹性参考响应 · CPU 本地计算</span></footer>
+</body></html>
