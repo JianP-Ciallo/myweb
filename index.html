@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>爆炸与建筑响应 · 答辩展示</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316758a'/%3E%3Cpath d='M8 25V9h7v16m2 0V5h7v20M5 25h22' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./blast_demo.css">
+  <link rel="stylesheet" href="./workbench_theme.css">
+  <link rel="stylesheet" href="./cpu_blast.css">
+  <link rel="stylesheet" href="./preview.css">
+  <script type="importmap">
+    {"imports":{"three":"./vendor/three/three.module.min.js"}}
+  </script>
+  <script type="module" src="./preview.js"></script>
+</head>
+<body class="workbench-theme cpu-blast-workbench has-workbench-navigation" data-workbench="blast" data-cpu-workbench>
+  <header class="workbench-global-header">
+    <a class="workbench-global-brand" href="./">lsprepost-mcp</a>
+    <nav aria-label="工作台">
+      <button type="button" data-module="modeling">建模工作台</button>
+      <button type="button" data-module="refined">精细化爆炸</button>
+      <button type="button" data-module="pressure" class="selected">固定建筑压力分析</button>
+      <a href="./" aria-current="page">CPU 响应</a>
+      <button type="button" data-module="assessment">评估演示</button>
+    </nav>
+    <div class="workbench-global-context">
+      <strong>三层阳台住宅 · CPU 响应</strong>
+      <span role="status">开题答辩 · 静态展示</span>
+    </div>
+  </header>
+  <div class="cpu-page-heading">
+    <div><span class="eyebrow">建筑场景 / CPU</span><h1>爆炸与建筑响应</h1><p>浏览三层住宅模型、切换视图，预览建筑响应工作台。</p></div>
+    <div class="cpu-heading-actions"><span class="cpu-badge">答辩展示 · 三维预览</span><button type="button" data-module="catalog">查看场景目录 ↗</button></div>
+  </div>
+  <main class="cpu-layout">
+    <aside class="cpu-settings" aria-label="场景与视图">
+      <section>
+        <h2><b>01</b> 建筑场景</h2>
+        <label class="cpu-field">当前场景<select><option>我的三层建筑</option></select></label>
+        <div class="building-card"><span>三层阳台住宅</span><strong>16.8 × 12.0 m</strong><small>3 层 · 1465 个可视构件</small></div>
+        <div class="inline-controls"><label><input id="showRoof" type="checkbox" checked>屋面</label></div>
+        <button type="button" id="downloadModel" class="secondary">↓ 下载展示几何</button>
+        <div class="demo-target-controls">
+          <label>展示视角<select id="viewChoice"><option value="orbit">默认：三层住宅全景</option><option value="front">正面阳台</option><option value="top">屋面总览</option></select></label>
+          <div class="demo-target-actions">
+            <button id="applyView" type="button" class="secondary">应用展示视角</button>
+            <button id="frontView" type="button" class="secondary">聚焦阳台</button>
+            <button id="topView" type="button" class="secondary">观察屋面</button>
+          </div>
+          <p class="hint">拖动可旋转，滚轮可缩放。下方时间轴用于回放镜头。</p>
+        </div>
+      </section>
+      <section>
+        <h2><b>02</b> 响应界面</h2>
+        <p class="hint">展示模型浏览、时间轴和损伤图例。工程参数与计算结果由原工作台提供。</p>
+        <button type="button" data-module="assessment" class="secondary">查看评估演示说明</button>
+      </section>
+    </aside>
+    <article class="cpu-stage" aria-label="三维视图">
+      <div class="cpu-stage-heading">
+        <div><span class="live-dot"></span><h2>三层阳台住宅</h2></div>
+        <span class="cpu-badge">模型外观 · 镜头回放</span>
+      </div>
+      <div class="viewport" id="viewport">
+        <div class="viewport-label"><strong id="viewLabel">三层阳台住宅 / 初始模型</strong><span id="viewHint">拖动旋转 · 滚轮缩放</span></div>
+        <div class="view-tools">
+          <button id="fitDemo" type="button">⌂ 全景</button><span></span>
+          <button id="appearance" class="selected" type="button" aria-pressed="true">外观</button>
+          <button id="damage" type="button" aria-pressed="false">损伤图例</button><span></span>
+          <button id="captureDemo" type="button">保存图片</button>
+          <button id="fullscreenDemo" type="button">全屏</button>
+        </div>
+        <div class="stage-status" id="stageStatus" role="status">模型加载中</div>
+      </div>
+      <div class="playback">
+        <button id="playDemo" type="button" aria-label="播放镜头">▶</button>
+        <output id="timeDisplay" for="timeline">0.00 / 6.00 s</output>
+        <input id="timeline" type="range" min="0" max="6" step=".01" value="0" aria-label="镜头时间轴">
+        <select id="speed" aria-label="播放速度"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+        <button id="resetDemo" type="button">重置</button><button type="button" disabled>↓ 结果</button>
+      </div>
+      <div class="results">
+        <div class="metric"><span>计算用时</span><strong>—</strong><small>答辩展示</small></div>
+        <div class="metric"><span>脱落构件</span><strong>—</strong><small>静态预览</small></div>
+        <div class="chart-card"><span>累计最大位移 / m</span><p class="hint">工程版结果区</p></div>
+        <div class="chart-card"><span>累计脱落构件</span><p class="hint">工程版结果区</p></div>
+      </div>
+    </article>
+  </main>
+  <dialog id="moduleDialog" aria-labelledby="moduleTitle">
+    <h2 id="moduleTitle"></h2>
+    <p id="moduleDescription"></p>
+    <div class="dialog-actions"><button id="closeDialog" type="button">返回工作台</button></div>
+  </dialog>
+</body>
+</html>

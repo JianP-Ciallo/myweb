@@ -1,0 +1,68 @@
+/* CPU shell uses the existing workbench palette; 3D semantic colors stay local. */
+body.cpu-blast-workbench{background:var(--wb-background);color:var(--wb-text);font-size:13px}
+.cpu-blast-workbench a{color:var(--wb-accent)}
+.cpu-page-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px 17px}
+.cpu-page-heading .eyebrow{display:block;margin:0 0 6px;color:var(--wb-accent);letter-spacing:.12em;font-size:10px}
+.cpu-page-heading h1{font-size:22px;font-weight:600;margin:0;line-height:1.4}
+.cpu-page-heading p{font-size:12px;line-height:1.7;margin:6px 0 0;color:var(--wb-muted)}
+.cpu-heading-actions{display:flex;align-items:center;gap:16px;font-size:12px}
+.cpu-badge{font-size:11px;color:var(--wb-accent);background:var(--wb-accent-soft);border-radius:20px;padding:6px 10px;white-space:nowrap}
+.cpu-blast-workbench .cpu-layout{display:grid;grid-template-columns:282px minmax(0,1fr);gap:14px;padding:0 16px 16px;min-height:0;align-items:start}
+.cpu-blast-workbench .cpu-settings{padding:18px;background:var(--wb-surface);border:1px solid var(--wb-border);border-radius:var(--wb-radius);max-height:calc(100dvh - var(--wb-navigation-height,65px) - 122px);overflow:auto;scrollbar-width:thin}
+.cpu-settings section{margin:0 0 18px;padding-bottom:18px;border-color:var(--wb-border)}
+.cpu-settings h2{font-size:13px;font-weight:600;color:var(--wb-text);margin-bottom:13px}
+.cpu-settings h2 b{color:var(--wb-accent);margin-right:9px}
+.cpu-settings .cpu-field{display:grid;gap:7px;color:var(--wb-muted);font-size:11px;margin-bottom:12px}
+.cpu-settings .cpu-field select{width:100%}
+.cpu-settings .building-card{background:var(--wb-surface-soft);border-color:var(--wb-border);padding:13px}
+.cpu-settings .building-card span{color:var(--wb-text);font-size:12px}
+.cpu-settings .building-card strong{font-size:21px;color:var(--wb-text)}
+.cpu-settings .building-card small{color:var(--wb-muted);line-height:1.7}
+.cpu-settings :is(.inline-controls,.hint,.triple label,.mass-label,.duration-label,details,summary){color:var(--wb-muted);font-size:11px}
+.cpu-settings .inline-controls{gap:12px;flex-wrap:wrap}
+.cpu-settings .triple input{background:var(--wb-surface);color:var(--wb-text);border-color:var(--wb-border);padding:7px 6px}
+.cpu-settings .mass-label output{color:var(--wb-accent);font-weight:600}
+.cpu-settings .presets{gap:7px}
+.cpu-settings .presets button{font-size:11px;padding:7px 0;color:var(--wb-muted)}
+body.cpu-blast-workbench .presets button.active{background:var(--wb-accent-soft);color:var(--wb-accent-hover);border-color:var(--wb-accent)}
+body.cpu-blast-workbench .primary{background:var(--wb-accent);color:#fff;border-color:var(--wb-accent);height:43px;font-weight:600}
+body.cpu-blast-workbench .primary:hover:enabled{background:var(--wb-accent-hover);border-color:var(--wb-accent-hover)}
+body.cpu-blast-workbench .secondary{color:var(--wb-accent);font-size:11px}
+.cpu-settings #inputMessage{font-size:11px;min-height:36px;margin:10px 0 0}
+.cpu-settings #inputMessage[data-error=true]{color:var(--wb-danger)}
+.cpu-settings details{margin-top:14px;line-height:1.8}
+.cpu-settings details p{margin:10px 0}
+.cpu-cache{padding-top:13px;border-top:1px solid var(--wb-border);margin:18px 0 0;font-size:10px!important}
+.cpu-cache[data-error=true]{color:var(--wb-warning)}
+.cpu-blast-workbench .cpu-stage{background:var(--wb-surface);border:1px solid var(--wb-border);border-radius:var(--wb-radius);overflow:hidden;min-width:0}
+.cpu-stage-heading{padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:53px}
+.cpu-stage-heading>div{display:flex;align-items:center;gap:10px}
+.cpu-stage-heading h2{font-size:15px;margin:0;font-weight:600}
+.cpu-blast-workbench .viewport{height:clamp(390px,calc(100dvh - var(--wb-navigation-height,65px) - 370px),800px);min-height:390px;border-block:1px solid var(--wb-border);background:var(--wb-viewport)}
+.cpu-blast-workbench .viewport-label{top:18px;left:20px;color:var(--wb-text)}
+.cpu-blast-workbench .viewport-label span{color:var(--wb-muted)}
+.cpu-blast-workbench .view-tools{background:#fffffff2;border-color:var(--wb-border);box-shadow:0 5px 24px #24374618;bottom:18px;padding:5px;gap:3px;max-width:calc(100% - 20px)}
+body.cpu-blast-workbench .view-tools button{background:transparent;color:var(--wb-muted);border-color:transparent;min-height:32px;padding:7px 10px;font-size:11px}
+body.cpu-blast-workbench .view-tools button.selected{background:var(--wb-accent-soft);color:var(--wb-accent-hover)}
+.cpu-blast-workbench .view-tools>span{background:var(--wb-border)}
+.cpu-blast-workbench .stage-status{bottom:26px;color:var(--wb-muted)}
+.cpu-blast-workbench .compute-progress{background:#fffffff5;border-color:var(--wb-border);color:var(--wb-text);min-width:240px}
+.cpu-blast-workbench .compute-progress>div{color:var(--wb-text)}
+body.cpu-blast-workbench .compute-progress button{min-height:24px;padding:0 3px;border:0;background:transparent;color:var(--wb-muted)}
+.cpu-blast-workbench .playback{padding:12px 16px;gap:12px;background:var(--wb-surface);border-color:var(--wb-border)}
+.cpu-blast-workbench .playback output{color:var(--wb-text)}
+body.cpu-blast-workbench .playback button{border-color:var(--wb-border);font-size:11px;min-height:34px}
+body.cpu-blast-workbench #playDemo{color:var(--wb-accent)}
+.cpu-blast-workbench .results{background:var(--wb-surface);padding:19px 0 12px;grid-template-columns:145px 145px minmax(120px,1fr) minmax(120px,1fr)}
+.cpu-blast-workbench .metric{border-color:var(--wb-border);padding:0 18px}
+.cpu-blast-workbench .metric strong{color:var(--wb-text);font-size:25px}
+.cpu-blast-workbench .metric :is(span,em,small),.cpu-blast-workbench .chart-card>span{color:var(--wb-muted)}
+.cpu-blast-workbench .chart-card{display:block;min-width:0;padding:0 15px}
+.cpu-blast-workbench .chart-card text{fill:var(--wb-muted)}
+.cpu-blast-workbench .chart-card line{stroke:var(--wb-border)}
+.cpu-blast-workbench .chart-card path{stroke:var(--wb-accent)}
+.cpu-blast-workbench .chart-card:last-child path{stroke:#b87535}
+@media(min-width:1800px){.cpu-blast-workbench .cpu-layout{grid-template-columns:305px minmax(0,1fr);gap:18px;padding-inline:22px}.cpu-blast-workbench .results{grid-template-columns:170px 170px minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:1200px){.cpu-blast-workbench .cpu-layout{grid-template-columns:258px minmax(0,1fr);gap:12px}.cpu-settings{padding:16px}.cpu-blast-workbench .results{grid-template-columns:1fr 1fr}.cpu-blast-workbench .metric{padding-bottom:16px}.cpu-blast-workbench .metric:nth-child(2){border:0}.cpu-blast-workbench .chart-card{padding-top:14px;border-top:1px solid var(--wb-border)}.cpu-heading-actions .cpu-badge{display:none}.cpu-blast-workbench .playback{gap:8px;padding:12px}.cpu-blast-workbench .playback output{min-width:90px}.cpu-blast-workbench .stage-status{display:none}}
+@media(max-width:760px){.cpu-page-heading{padding:16px 12px;align-items:start}.cpu-page-heading h1{font-size:20px}.cpu-page-heading p{max-width:260px;font-size:11px}.cpu-heading-actions{font-size:11px;max-width:88px;text-align:right}.cpu-blast-workbench .cpu-layout{display:flex;flex-direction:column;padding:0 10px 12px;gap:12px}.cpu-blast-workbench .cpu-settings{order:1;width:100%;max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:16px}.cpu-settings section{margin:0}.cpu-settings section:nth-of-type(2){grid-row:span 2}.cpu-settings :is(details,.cpu-cache){grid-column:1/-1;margin:0}.cpu-blast-workbench .cpu-stage{order:0;width:100%}.cpu-blast-workbench .viewport{height:460px;min-height:350px}.cpu-blast-workbench .viewport-label{top:14px;left:14px}.cpu-blast-workbench .view-tools{gap:0;padding:4px}.cpu-blast-workbench .view-tools button{padding:7px 6px;font-size:10px}.cpu-blast-workbench .view-tools>span{margin:0 2px}.cpu-blast-workbench .playback{flex-wrap:wrap;padding:10px;gap:7px}.cpu-blast-workbench .playback input{min-width:70px}.cpu-blast-workbench .playback output{min-width:80px;font-size:10px}.cpu-blast-workbench #downloadDemo{display:block}.cpu-blast-workbench .compute-progress{top:55px;right:10px;min-width:210px}.cpu-stage-heading{padding:12px}.cpu-stage-heading h2{font-size:14px}}
+@media(max-width:480px){.cpu-blast-workbench .cpu-settings{display:block}.cpu-settings section{margin-bottom:18px}.cpu-settings details{margin-top:14px}.cpu-cache{margin-top:18px!important}.cpu-blast-workbench .viewport{height:390px}.cpu-blast-workbench .playback input{order:2;flex-basis:100%;width:100%;margin:5px 0}.cpu-blast-workbench .playback output{flex:1}.cpu-blast-workbench .view-tools #fullscreenDemo{display:block}.cpu-blast-workbench .results{padding-top:16px}.cpu-blast-workbench .metric strong{font-size:24px}}
